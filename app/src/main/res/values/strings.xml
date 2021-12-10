@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Movies App</string>
+    <string name="bm_home_btn">Home</string>
+    <string name="bm_favorites_btn">Favorites</string>
+    <string name="bm_ratings_btn">Ratings</string>
+    <string name="bm_profile_btn">Profile</string>
+</resources>
