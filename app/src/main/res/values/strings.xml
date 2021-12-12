@@ -4,4 +4,11 @@
     <string name="bm_favorites_btn">Favorites</string>
     <string name="bm_ratings_btn">Ratings</string>
     <string name="bm_profile_btn">Profile</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_favorites_name">Favorites</string>
+    <string name="fragment_profile_name">Profile</string>
+    <string name="fragment_ratings_name">Ratings</string>
+    <string name="retry_btn">RETRY</string>
+    <string name="fragment_movie_page_name">Movie Page</string>
 </resources>
