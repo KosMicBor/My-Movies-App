@@ -1,5 +1,6 @@
 package kosmicbor.giftapp.mymoviesapp.viewmodel
 
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,12 +9,15 @@ import kosmicbor.giftapp.mymoviesapp.view.AppState
 import kosmicbor.giftapp.mymoviesapp.view.Success
 import kosmicbor.giftapp.mymoviesapp.view.Error
 import kosmicbor.giftapp.mymoviesapp.view.LoadingState
+import java.util.concurrent.Executors
 import kotlin.random.Random
 
-class MainViewModel(
+class RatingViewModel(
     private val moviesListMutableLiveData: MutableLiveData<AppState<*>> = MutableLiveData(),
     private val repositoryImpl: RepositoryImpl = RepositoryImpl()
 ) : ViewModel() {
+
+    private val executor = Executors.newSingleThreadExecutor()
 
     fun getMoviesListLiveData(): LiveData<AppState<*>> = moviesListMutableLiveData
 
@@ -21,19 +25,26 @@ class MainViewModel(
 
         moviesListMutableLiveData.value = LoadingState
 
-        Thread {
+        executor.execute {
+            Thread {
 
-            Thread.sleep(2000L)
+                Thread.sleep(2000L)
 
-            val randomBoolean = Random.nextBoolean()
+                val randomBoolean = Random.nextBoolean()
 
-            if (randomBoolean) {
-                val moviesList = repositoryImpl.getCollections()
-                moviesListMutableLiveData.postValue(Success(moviesList))
-            } else {
-                moviesListMutableLiveData.postValue(Error<Exception>(Exception("Can't load movies database")))
-            }
+                if (randomBoolean) {
+                    val moviesList = repositoryImpl.getLocalData()
+                    moviesListMutableLiveData.postValue(Success(moviesList))
+                } else {
+                    moviesListMutableLiveData.postValue(Error<Exception>(Exception("Can't load movies database")))
+                }
 
-        }.start()
+            }.start()
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        executor.shutdown()
     }
 }

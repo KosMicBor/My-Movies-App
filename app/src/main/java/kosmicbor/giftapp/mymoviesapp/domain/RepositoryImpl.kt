@@ -1,54 +1,40 @@
 package kosmicbor.giftapp.mymoviesapp.domain
 
-import android.os.Looper
 import kosmicbor.giftapp.mymoviesapp.view.AppState
-import kosmicbor.giftapp.mymoviesapp.view.Error
-import kosmicbor.giftapp.mymoviesapp.view.Success
-import java.lang.RuntimeException
-import java.util.concurrent.Executors
-import kotlin.random.Random
 
 class RepositoryImpl : Repository {
 
-    private val executor = Executors.newSingleThreadExecutor()
-    private val mainThreadHandler = android.os.Handler(Looper.getMainLooper())
-
-    override fun createMovies(): List<Movie> {
-
+    override fun getLocalData(): List<Movie> {
         return listOf(
-            Movie("Мортал Комбат", "Фильм про драки", 7.0),
-            Movie("Сияние", "Страшно", 8.0),
-            Movie("Зелёная миля", "Шедевр по Кингу", 10.0),
-            Movie("Топган", "Фильм про самолёты", 6.5),
-            Movie("Горячие головы", "Смешной фильм про самолёты", 7.5),
-            Movie("Звёзные войны", "Звёздная сага", 7.5)
+            Movie("Мортал Комбат", "Фильм про драки", "2021", 7.0),
+            Movie("Сияние", "Страшно", "1987", 8.0),
+            Movie("Зелёная миля", "Шедевр по Кингу", "1999", 10.0),
+            Movie("Топган", "Фильм про самолёты", "1986", 6.5),
+            Movie("Горячие головы", "Смешной фильм про самолёты", "1991", 7.5),
+            Movie("Звёзные войны: эпизод 4", "Звёздная сага", "1987", 7.5),
+            Movie("Звёзные войны: эпизод 5", "Звёздная сага", "1989", 7.5),
+            Movie("Звёзные войны: эпизод 6", "Звёздная сага", "1991", 7.5),
+            Movie("Звёзные войны: эпизод 1", "Звёздная сага", "2001", 7.5),
+            Movie("Звёзные войны: эпизод 2", "Звёздная сага", "2003", 7.5),
+            Movie("Звёзные войны: эпизод 3", "Звёздная сага", "2007", 7.5)
         )
     }
 
-    override fun getData(callback: (result: AppState<List<Movie>>) -> Unit) {
-        executor.execute {
-
-            Thread.sleep(2000L)
-
-            val isItHappened = Random.nextBoolean()
-
-            if (isItHappened) {
-
-                val moviesList = createMovies()
-
-                mainThreadHandler.post {
-                    callback(Success(moviesList))
-                }
-            } else {
-
-                mainThreadHandler.post {
-                    callback(Error(RuntimeException("Can't load movies base")))
-                }
-            }
-        }
+    override fun getRemoteData() {
+        TODO("Not yet implemented")
     }
 
-    fun shutDown() {
-        executor.shutdown()
+    override fun getCollections(): HashMap<String, List<Movie>> {
+        val popularList = getLocalData()
+        val topRatedList = getLocalData()
+        val nowPlayingList = getLocalData()
+        val upcomingList = getLocalData()
+
+        return hashMapOf(
+            "Popular" to popularList,
+            "Top Rated" to topRatedList,
+            "Now playing" to nowPlayingList,
+            "Upcoming" to upcomingList
+        )
     }
 }

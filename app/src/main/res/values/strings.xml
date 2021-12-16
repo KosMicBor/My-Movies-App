@@ -11,4 +11,5 @@
     <string name="fragment_ratings_name">Ratings</string>
     <string name="retry_btn">RETRY</string>
     <string name="fragment_movie_page_name">Movie Page</string>
+    <string name="menu_search_title">Search</string>
 </resources>

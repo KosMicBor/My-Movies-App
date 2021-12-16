@@ -16,7 +16,7 @@ data class Movie(
     val title: String,
     val overview: String,
     //val productionCountries: String,
-    //val releaseDate: String,
+    val releaseDate: String,
     // val revenue: Int,
     //val runtime: Int,
     //val spokenLanguages: String,

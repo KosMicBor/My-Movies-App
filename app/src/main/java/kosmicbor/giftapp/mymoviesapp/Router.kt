@@ -1,6 +1,6 @@
 package kosmicbor.giftapp.mymoviesapp
 
-import androidx.fragment.app.Fragment
+import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import kosmicbor.giftapp.mymoviesapp.view.*
 
@@ -37,10 +37,10 @@ class Router(private val supportFragmentManager: FragmentManager) {
             .commit()
     }
 
-    fun openFragmentMoviePage(fragment: Fragment) {
+    fun openFragmentMoviePage(bundle: Bundle) {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
-            .replace(R.id.main_container, fragment)
+            .replace(R.id.main_container, FragmentMoviePage.newInstance(bundle))
             .addToBackStack("MoviesPage")
             .commit()
     }
