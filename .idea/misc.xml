@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.2462962962962963" />
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.35208333333333336" />
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.19635416666666666" />
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.35208333333333336" />
@@ -19,6 +20,7 @@
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/layout/main_fragment.xml" value="0.3145833333333333" />
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/layout/main_recyclerview_collection_title.xml" value="0.2341485507246377" />
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/layout/main_recyclerview_item.xml" value="0.33" />
+        <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/layout/movie_recyclerview_item.xml" value="0.17604166666666668" />
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/layout/sub_recyclerview_item.xml" value="0.23822463768115942" />
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/menu/actionbar_custom_menu.xml" value="0.17604166666666668" />
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.33177083333333335" />

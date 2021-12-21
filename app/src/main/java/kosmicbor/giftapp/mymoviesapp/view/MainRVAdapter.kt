@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
@@ -21,8 +20,7 @@ class MainRVAdapter : RecyclerView.Adapter<MainRVAdapter.MainItemViewHolder>() {
 
     private var moviesList: HashMap<String, List<Movie>> = hashMapOf()
     private lateinit var recyclerView: RecyclerView
-    private val itemAdapter = MainRecyclerViewItemAdapter()
-    var moviesListItemClick: MainItemOnClick? = null
+    private val itemAdapter = MainRVItemAdapter()
 
     inner class MainItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val itemRecyclerView: RecyclerView = itemView.findViewById(R.id.sub_recycler_view)
@@ -32,7 +30,7 @@ class MainRVAdapter : RecyclerView.Adapter<MainRVAdapter.MainItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainRVAdapter.MainItemViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.sub_recyclerview_item, parent, false)
+            .inflate(R.layout.collection_recyclerview_item, parent, false)
         return MainItemViewHolder(itemView)
     }
 
@@ -41,13 +39,17 @@ class MainRVAdapter : RecyclerView.Adapter<MainRVAdapter.MainItemViewHolder>() {
         holder.collectionTitle.text = moviesList.keys.elementAt(position)
 
         recyclerView = holder.itemRecyclerView.apply {
-            layoutManager =
-                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             adapter = itemAdapter.apply {
+
                 moviesList[moviesList.keys.elementAt(position)]?.let { submitList(it) }
-                moviesListItemClick = MainRecyclerViewItemAdapter.MoviesListItemOnClick {
-                    val bundle = Bundle()
-                    bundle.putParcelable(MOVIE_CONST, it)
+
+                moviesListItemClick = MainRVItemAdapter.MoviesListItemOnClick {
+
+                    val bundle = Bundle().apply{
+                        putParcelable(MOVIE_CONST, it)
+                    }
+
                     (context as AppCompatActivity).supportFragmentManager.beginTransaction()
                         .setReorderingAllowed(true)
                         .replace(R.id.main_container, FragmentMoviePage.newInstance(bundle))
@@ -66,10 +68,6 @@ class MainRVAdapter : RecyclerView.Adapter<MainRVAdapter.MainItemViewHolder>() {
     }
 
     override fun getItemCount() = moviesList.size
-
-    fun interface MainItemOnClick {
-        fun onClick(movie: Movie)
-    }
 }
 
 

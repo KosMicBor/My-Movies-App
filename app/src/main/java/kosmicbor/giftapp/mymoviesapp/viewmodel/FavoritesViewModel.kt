@@ -1,6 +1,5 @@
 package kosmicbor.giftapp.mymoviesapp.viewmodel
 
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,19 +12,15 @@ import java.util.concurrent.Executors
 import kotlin.random.Random
 
 class FavoritesViewModel(
-    private val moviesListMutableLiveData: MutableLiveData<AppState<*>> = MutableLiveData(),
-    private val repositoryImpl: RepositoryImpl = RepositoryImpl()
+    private val FavoritesListMutableLiveData: MutableLiveData<AppState<*>> = MutableLiveData(),
 ) : ViewModel() {
 
-    private val executor = Executors.newSingleThreadExecutor()
+    fun getFavoritesListLiveData(): LiveData<AppState<*>> = FavoritesListMutableLiveData
 
-    fun getMoviesListLiveData(): LiveData<AppState<*>> = moviesListMutableLiveData
+    fun getFavoritesList() {
 
-    fun getMoviesList() {
+        FavoritesListMutableLiveData.value = LoadingState
 
-        moviesListMutableLiveData.value = LoadingState
-
-        executor.execute {
             Thread {
 
                 Thread.sleep(2000L)
@@ -33,18 +28,12 @@ class FavoritesViewModel(
                 val randomBoolean = Random.nextBoolean()
 
                 if (randomBoolean) {
-                    val moviesList = repositoryImpl.getLocalData()
-                    moviesListMutableLiveData.postValue(Success(moviesList))
+                    val favoritesList = RepositoryImpl.getFavorites()
+                    FavoritesListMutableLiveData.postValue(Success(favoritesList))
                 } else {
-                    moviesListMutableLiveData.postValue(Error<Exception>(Exception("Can't load movies database")))
+                    FavoritesListMutableLiveData.postValue(Error<Exception>(Exception("Can't load Favorites database")))
                 }
 
             }.start()
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        executor.shutdown()
-    }
 }

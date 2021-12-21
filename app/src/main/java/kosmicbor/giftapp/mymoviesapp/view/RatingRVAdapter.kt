@@ -27,7 +27,7 @@ class RatingRVAdapter() : RecyclerView.Adapter<RatingRVAdapter.MainViewHolder>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val itemView =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.main_recyclerview_item, parent, false)
+                .inflate(R.layout.movie_recyclerview_item, parent, false)
         return MainViewHolder(itemView)
     }
 

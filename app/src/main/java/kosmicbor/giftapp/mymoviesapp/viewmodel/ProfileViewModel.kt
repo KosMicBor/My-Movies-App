@@ -13,8 +13,7 @@ import java.util.concurrent.Executors
 import kotlin.random.Random
 
 class ProfileViewModel(
-    private val moviesListMutableLiveData: MutableLiveData<AppState<*>> = MutableLiveData(),
-    private val repositoryImpl: RepositoryImpl = RepositoryImpl()
+    private val moviesListMutableLiveData: MutableLiveData<AppState<*>> = MutableLiveData()
 ) : ViewModel() {
 
     private val executor = Executors.newSingleThreadExecutor()
@@ -33,7 +32,7 @@ class ProfileViewModel(
                 val randomBoolean = Random.nextBoolean()
 
                 if (randomBoolean) {
-                    val moviesList = repositoryImpl.getLocalData()
+                    val moviesList = RepositoryImpl.getLocalData()
                     moviesListMutableLiveData.postValue(Success(moviesList))
                 } else {
                     moviesListMutableLiveData.postValue(Error<Exception>(Exception("Can't load movies database")))

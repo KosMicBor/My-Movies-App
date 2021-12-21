@@ -11,7 +11,7 @@ import kosmicbor.giftapp.mymoviesapp.R
 
 import kosmicbor.giftapp.mymoviesapp.domain.Movie
 
-class MainRecyclerViewItemAdapter() : RecyclerView.Adapter<MainRecyclerViewItemAdapter.MainViewHolder>() {
+class MainRVItemAdapter() : RecyclerView.Adapter<MainRVItemAdapter.MainViewHolder>() {
 
     private var moviesList: MutableList<Movie> = mutableListOf()
     var moviesListItemClick: MoviesListItemOnClick? = null
@@ -27,7 +27,7 @@ class MainRecyclerViewItemAdapter() : RecyclerView.Adapter<MainRecyclerViewItemA
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val itemView =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.main_recyclerview_item, parent, false)
+                .inflate(R.layout.movie_recyclerview_item, parent, false)
         return MainViewHolder(itemView)
     }
 
