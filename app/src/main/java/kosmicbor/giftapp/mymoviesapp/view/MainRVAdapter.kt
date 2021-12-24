@@ -1,61 +1,76 @@
 package kosmicbor.giftapp.mymoviesapp.view
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.imageview.ShapeableImageView
-import kosmicbor.giftapp.mymoviesapp.MainActivity
+import com.google.android.material.textview.MaterialTextView
 import kosmicbor.giftapp.mymoviesapp.R
-
 import kosmicbor.giftapp.mymoviesapp.domain.Movie
 
-class MainRVAdapter (val fragment: Fragment): RecyclerView.Adapter<MainRVAdapter.MainViewHolder>(), MoviesListAdapterClickListener {
+class MainRVAdapter : RecyclerView.Adapter<MainRVAdapter.MainItemViewHolder>() {
 
-    private var moviesList: MutableList<Movie> = mutableListOf()
-    private lateinit var moviesListAdapterClickListener: MoviesListAdapterClickListener
-
-    class MainViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.movie_title)
-        val movieImage: ShapeableImageView = itemView.findViewById(R.id.recycler_view_item_image)
-
+    companion object {
+        const val MOVIE_CONST = "MOVIE_CONST"
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val itemView =
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.main_recyclerview_item, parent, false)
-        return MainViewHolder(itemView)
+    private var moviesList: HashMap<String, List<Movie>> = hashMapOf()
+    private lateinit var recyclerView: RecyclerView
+    private val itemAdapter = MainRecyclerViewItemAdapter()
+    var moviesListItemClick: MainItemOnClick? = null
+
+    inner class MainItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val itemRecyclerView: RecyclerView = itemView.findViewById(R.id.sub_recycler_view)
+        val collectionTitle: MaterialTextView =
+            itemView.findViewById(R.id.main_recyclerview_collection_name)
     }
 
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.title.text = moviesList[position].title
-        holder.movieImage.setImageResource(R.drawable.ic_launcher_background)
-        moviesListAdapterClickListener = fragment.activity as MoviesListAdapterClickListener
-        holder.itemView.setOnClickListener {
-            moviesListAdapterClickListener.onClick(moviesList[position])
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainRVAdapter.MainItemViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.sub_recyclerview_item, parent, false)
+        return MainItemViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: MainRVAdapter.MainItemViewHolder, position: Int) {
+
+        holder.collectionTitle.text = moviesList.keys.elementAt(position)
+
+        recyclerView = holder.itemRecyclerView.apply {
+            layoutManager =
+                LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            adapter = itemAdapter.apply {
+                moviesList[moviesList.keys.elementAt(position)]?.let { submitList(it) }
+                moviesListItemClick = MainRecyclerViewItemAdapter.MoviesListItemOnClick {
+                    val bundle = Bundle()
+                    bundle.putParcelable(MOVIE_CONST, it)
+                    (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.main_container, FragmentMoviePage.newInstance(bundle))
+                        .addToBackStack("MoviesPage")
+                        .commit()
+                }
+            }
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitList(newData: List<Movie>) {
+    fun submitList(newData: HashMap<String, List<Movie>>) {
         moviesList.clear()
-        moviesList.addAll(newData)
+        moviesList.putAll(newData)
         notifyDataSetChanged()
     }
 
     override fun getItemCount() = moviesList.size
 
-    override fun onClick(movie: Movie) {
-        TODO("Not yet implemented")
+    fun interface MainItemOnClick {
+        fun onClick(movie: Movie)
     }
 }
 
-interface MoviesListAdapterClickListener {
-    fun onClick(movie: Movie)
-}
+
 

@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/padding_8dp"
     tools:context=".view.FragmentMain">
 
     <TextView
@@ -12,43 +13,114 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/title_size"
-        android:layout_margin="@dimen/min_margin"
         tools:text="Movie Name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/movie_page_original_name"/>
+
+    <TextView
+        android:id="@+id/movie_page_original_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_size"
+        tools:text="Movie original name"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/movie_page_image"/>
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/movie_page_image"
+        android:id="@+id/favorite_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_favorite_border_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/movie_page_title"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/movie_page_image"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
         android:layout_margin="@dimen/min_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/movie_page_title"
+        app:layout_constraintTop_toBottomOf="@id/movie_page_original_name"
         tools:src="@drawable/ic_launcher_background"/>
 
     <TextView
-        android:id="@+id/movie_page_overview"
+        android:id="@+id/movie_page_genres"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/title_size"
-        android:layout_margin="@dimen/min_margin"
-        tools:text="Overview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/movie_page_image"/>
+        android:textSize="@dimen/title_size_16sp"
+        android:layout_marginStart="@dimen/min_margin"
+        tools:text="Genres"
+        app:layout_constraintStart_toEndOf="@id/movie_page_image"
+        app:layout_constraintTop_toTopOf="@id/movie_page_image"/>
+
+    <TextView
+        android:id="@+id/movie_page_runtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_size_16sp"
+        tools:text="Runtime"
+        app:layout_constraintStart_toStartOf="@id/movie_page_genres"
+        app:layout_constraintStart_toEndOf="@id/movie_page_image"
+        app:layout_constraintTop_toBottomOf="@id/movie_page_genres"/>
 
     <TextView
         android:id="@+id/movie_page_vote_average"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/title_size"
-        android:layout_margin="@dimen/min_margin"
-        tools:text="Vote Average"
+        android:textSize="@dimen/title_size_16sp"
+        tools:text="Rating"
+        app:layout_constraintStart_toStartOf="@id/movie_page_genres"
+        app:layout_constraintTop_toBottomOf="@id/movie_page_runtime"
+        app:layout_constraintEnd_toStartOf="@id/movie_page_rating_icon"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/movie_page_rating_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_4dp"
+        android:layout_marginTop="@dimen/margin_2dp"
+        android:src="@drawable/ic_baseline_star_24"
+        app:layout_constraintStart_toEndOf="@id/movie_page_vote_average"
+        app:layout_constraintTop_toTopOf="@id/movie_page_vote_average"/>
+
+    <TextView
+        android:id="@+id/movie_page_budget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_size_16sp"
+        tools:text="Budget"
+        app:layout_constraintStart_toStartOf="@id/movie_page_genres"
+        app:layout_constraintTop_toBottomOf="@id/movie_page_vote_average"/>
+
+    <TextView
+        android:id="@+id/movie_page_revenue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_size_16sp"
+        tools:text="Revenue"
+        app:layout_constraintStart_toStartOf="@id/movie_page_genres"
+        app:layout_constraintTop_toBottomOf="@id/movie_page_budget"/>
+
+    <TextView
+        android:id="@+id/movie_page_release_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_size_16sp"
+        tools:text="Release Date"
+        app:layout_constraintStart_toStartOf="@id/movie_page_genres"
+        app:layout_constraintTop_toBottomOf="@id/movie_page_revenue"/>
+
+    <TextView
+        android:id="@+id/movie_page_overview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_size_16sp"
+        android:layout_marginTop="@dimen/typical_margin"
+        tools:text="Overview"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/movie_page_overview"/>
+        app:layout_constraintTop_toBottomOf="@id/movie_page_image"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

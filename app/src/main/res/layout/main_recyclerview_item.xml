@@ -2,39 +2,79 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_gravity="center_horizontal"
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/recyclerview_card_width"
+        android:layout_height="@dimen/typical_card_height"
+        app:cardCornerRadius="@dimen/cardview_corner_radius"
+        app:cardElevation="@dimen/cardview_elevation"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/min_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/movie_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:layout_margin="@dimen/min_margin"
-                android:textSize="@dimen/title_size"
-                tools:text="Movie Name" />
-
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/recycler_view_item_image"
+                android:id="@+id/item_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_margin="@dimen/min_margin"
+                android:layout_marginBottom="@dimen/min_margin"
+                app:layout_constraintBottom_toTopOf="@id/item_movie_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_launcher_background" />
 
-        </LinearLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/item_movie_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/min_margin"
+                android:layout_marginTop="@dimen/min_margin"
+                android:textSize="@dimen/title_size_16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_image"
+                tools:text="Movie Name" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/item_movie_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:textSize="@dimen/title_size_16sp"
+                app:layout_constraintStart_toStartOf="@id/item_movie_title"
+                app:layout_constraintTop_toBottomOf="@id/item_movie_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="2020" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/star_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_4dp"
+                android:src="@drawable/ic_baseline_star_24"
+                app:layout_constraintEnd_toStartOf="@id/item_movie_rating"
+                app:layout_constraintTop_toTopOf="@id/item_movie_year" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/item_movie_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/min_margin"
+                android:textSize="@dimen/title_size_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/item_movie_year"
+                tools:text="7.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </com.google.android.material.card.MaterialCardView>

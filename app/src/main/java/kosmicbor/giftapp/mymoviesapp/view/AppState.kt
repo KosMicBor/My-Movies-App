@@ -6,5 +6,5 @@ data class Success<T>(val value: T) : AppState<T>()
 
 data class Error<T>(val error: Throwable) : AppState<T>()
 
-class LoadingState<T>(val value: Boolean): AppState<T>()
+object LoadingState : AppState<Nothing>()
 

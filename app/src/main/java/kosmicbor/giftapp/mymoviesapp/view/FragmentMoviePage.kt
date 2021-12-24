@@ -9,11 +9,16 @@ import kosmicbor.giftapp.mymoviesapp.R
 import kosmicbor.giftapp.mymoviesapp.databinding.FragmentMoviePageBinding
 import kosmicbor.giftapp.mymoviesapp.domain.Movie
 
-class FragmentMoviePage: Fragment(R.layout.fragment_movie_page) {
+class FragmentMoviePage : Fragment(R.layout.fragment_movie_page) {
 
     companion object {
-        fun newInstance() = FragmentMoviePage()
+        fun newInstance(bundle: Bundle): FragmentMoviePage {
+            val fragment = FragmentMoviePage()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
+
     private val MOVIE_CONST = "MOVIE_CONST"
     private var _binding: FragmentMoviePageBinding? = null
     private val binding get() = _binding!!
@@ -31,10 +36,12 @@ class FragmentMoviePage: Fragment(R.layout.fragment_movie_page) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.moviePageTitle.text = movie?.title
-        binding.moviePageImage.setImageResource(R.drawable.ic_launcher_background)
-        binding.moviePageOverview.text = movie?.overview
-        binding.moviePageVoteAverage.text = movie?.voteAverage.toString()
+        binding.apply{
+            moviePageTitle.text = movie?.title
+            moviePageImage.setImageResource(R.drawable.ic_launcher_background)
+            moviePageOverview.text = movie?.overview
+            moviePageVoteAverage.text = movie?.voteAverage.toString()
+        }
     }
 
     override fun onDestroyView() {

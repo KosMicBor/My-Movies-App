@@ -4,4 +4,15 @@
     <dimen name="title_size">24sp</dimen>
     <dimen name="typical_margin">24dp</dimen>
     <dimen name="min_margin">8dp</dimen>
+    <dimen name="cardview_corner_radius">10dp</dimen>
+    <dimen name="title_size_16sp">16sp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="recyclerview_divider_height">8dp</dimen>
+    <dimen name="cardview_elevation">8dp</dimen>
+    <dimen name="recyclerview_card_width">150dp</dimen>
+    <dimen name="padding_8dp">8dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="typical_card_height">200dp</dimen>
+    <dimen name="margin_2dp">2dp</dimen>
 </resources>
