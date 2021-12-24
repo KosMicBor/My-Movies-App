@@ -3,6 +3,7 @@ package kosmicbor.giftapp.mymoviesapp.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kosmicbor.giftapp.mymoviesapp.domain.Movie
 import kosmicbor.giftapp.mymoviesapp.domain.RepositoryImpl
 import kosmicbor.giftapp.mymoviesapp.view.AppState
 import kosmicbor.giftapp.mymoviesapp.view.Success
@@ -36,4 +37,8 @@ class FavoritesViewModel(
 
             }.start()
         }
+
+    fun isInFavorite(movie: Movie): Boolean {
+       return RepositoryImpl.favoritesList.contains(movie)
+    }
 }

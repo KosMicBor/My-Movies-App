@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import kosmicbor.giftapp.mymoviesapp.R
 import kosmicbor.giftapp.mymoviesapp.domain.Movie
+import kosmicbor.giftapp.mymoviesapp.domain.MovieDTO
 
 class MainRVAdapter : RecyclerView.Adapter<MainRVAdapter.MainItemViewHolder>() {
 
@@ -18,7 +19,7 @@ class MainRVAdapter : RecyclerView.Adapter<MainRVAdapter.MainItemViewHolder>() {
         const val MOVIE_CONST = "MOVIE_CONST"
     }
 
-    private var moviesList: HashMap<String, List<Movie>> = hashMapOf()
+    private var moviesList: HashMap<String, List<MovieDTO>> = hashMapOf()
     private lateinit var recyclerView: RecyclerView
     private val itemAdapter = MainRVItemAdapter()
 
@@ -61,7 +62,7 @@ class MainRVAdapter : RecyclerView.Adapter<MainRVAdapter.MainItemViewHolder>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitList(newData: HashMap<String, List<Movie>>) {
+    fun submitList(newData: HashMap<String, List<MovieDTO>>) {
         moviesList.clear()
         moviesList.putAll(newData)
         notifyDataSetChanged()

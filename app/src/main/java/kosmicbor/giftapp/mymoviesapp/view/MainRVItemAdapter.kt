@@ -10,10 +10,11 @@ import com.google.android.material.imageview.ShapeableImageView
 import kosmicbor.giftapp.mymoviesapp.R
 
 import kosmicbor.giftapp.mymoviesapp.domain.Movie
+import kosmicbor.giftapp.mymoviesapp.domain.MovieDTO
 
 class MainRVItemAdapter() : RecyclerView.Adapter<MainRVItemAdapter.MainViewHolder>() {
 
-    private var moviesList: MutableList<Movie> = mutableListOf()
+    private var moviesList: MutableList<MovieDTO> = mutableListOf()
     var moviesListItemClick: MoviesListItemOnClick? = null
 
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -44,7 +45,7 @@ class MainRVItemAdapter() : RecyclerView.Adapter<MainRVItemAdapter.MainViewHolde
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitList(newData: List<Movie>) {
+    fun submitList(newData: List<MovieDTO>) {
         moviesList.clear()
         moviesList.addAll(newData)
         notifyDataSetChanged()
@@ -53,7 +54,7 @@ class MainRVItemAdapter() : RecyclerView.Adapter<MainRVItemAdapter.MainViewHolde
     override fun getItemCount() = moviesList.size
 
     fun interface MoviesListItemOnClick {
-        fun onClick(movie: Movie)
+        fun onClick(movie: MovieDTO)
     }
 }
 
