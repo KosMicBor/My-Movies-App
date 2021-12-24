@@ -1,8 +1,8 @@
 package kosmicbor.giftapp.mymoviesapp.domain
 
-import kosmicbor.giftapp.mymoviesapp.view.AppState
+object RepositoryImpl : Repository {
 
-class RepositoryImpl : Repository {
+    override val favoritesList: MutableList<Movie> = mutableListOf()
 
     override fun getLocalData(): List<Movie> {
         return listOf(
@@ -36,5 +36,15 @@ class RepositoryImpl : Repository {
             "Now playing" to nowPlayingList,
             "Upcoming" to upcomingList
         )
+    }
+
+    override fun getFavorites(): List<Movie> = favoritesList
+
+    override fun addFavoriteMovie(movie: Movie) {
+        favoritesList.add(movie)
+    }
+
+    override fun removeFavoriteMovie(movie: Movie) {
+        favoritesList.remove(movie)
     }
 }

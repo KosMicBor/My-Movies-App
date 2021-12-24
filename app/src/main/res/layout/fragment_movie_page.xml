@@ -32,7 +32,7 @@
         android:id="@+id/favorite_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_favorite_border_24"
+        android:background="@drawable/ic_baseline_favorite_border_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/movie_page_title"/>
 

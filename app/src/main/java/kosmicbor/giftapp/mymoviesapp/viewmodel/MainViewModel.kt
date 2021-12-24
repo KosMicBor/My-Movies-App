@@ -11,8 +11,7 @@ import kosmicbor.giftapp.mymoviesapp.view.LoadingState
 import kotlin.random.Random
 
 class MainViewModel(
-    private val moviesListMutableLiveData: MutableLiveData<AppState<*>> = MutableLiveData(),
-    private val repositoryImpl: RepositoryImpl = RepositoryImpl()
+    private val moviesListMutableLiveData: MutableLiveData<AppState<*>> = MutableLiveData()
 ) : ViewModel() {
 
     fun getMoviesListLiveData(): LiveData<AppState<*>> = moviesListMutableLiveData
@@ -28,7 +27,7 @@ class MainViewModel(
             val randomBoolean = Random.nextBoolean()
 
             if (randomBoolean) {
-                val moviesList = repositoryImpl.getCollections()
+                val moviesList = RepositoryImpl.getCollections()
                 moviesListMutableLiveData.postValue(Success(moviesList))
             } else {
                 moviesListMutableLiveData.postValue(Error<Exception>(Exception("Can't load movies database")))
