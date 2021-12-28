@@ -1,8 +1,25 @@
 package kosmicbor.giftapp.mymoviesapp.domain
 
+import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import com.google.gson.Gson
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.lang.NullPointerException
+import java.net.URL
+import java.util.concurrent.CountDownLatch
+import java.util.stream.Collectors
+import javax.net.ssl.HttpsURLConnection
+
+
 object RepositoryImpl : Repository {
 
     override val favoritesList: MutableList<Movie> = mutableListOf()
+
+    private const val API_KEY = "7ef9cd19cb8b91926a8247355c1c2ff5"
+    private const val TIMEOUT_TIME = 1000
+    private val handler = Handler(Looper.myLooper() ?: Looper.getMainLooper())
 
     override fun getLocalData(): List<Movie> {
         return listOf(
@@ -20,22 +37,85 @@ object RepositoryImpl : Repository {
         )
     }
 
-    override fun getRemoteData() {
-        TODO("Not yet implemented")
+    @Synchronized
+    override fun getRemoteCollectionData(
+        collectionName: String,
+        onMovieLoadListener: OnMovieLoadListener<MovieCollection>
+    ) {
+            var urlConnection: HttpsURLConnection? = null
+            try {
+                val uri =
+                    URL("https://api.themoviedb.org/3/movie/${collectionName}?api_key=${API_KEY}&language=en-US&page=1")
+
+                urlConnection = (uri.openConnection() as HttpsURLConnection).apply {
+                    requestMethod = "GET"
+                    addRequestProperty("api_key", API_KEY)
+                    readTimeout = TIMEOUT_TIME
+                    connectTimeout = TIMEOUT_TIME
+                }
+                val reader = BufferedReader(InputStreamReader(urlConnection.inputStream))
+                val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    reader.lines().collect(Collectors.joining("\n"))
+                } else {
+                    throw Exception("Can't build it")
+                }
+
+                val collection = Gson().fromJson(result, MovieCollection::class.java)
+                handler.post {
+                    onMovieLoadListener.loadSuccess(collection)
+                }
+            } catch (e: Exception) {
+                handler.post {
+                    onMovieLoadListener.loadError(e)
+                }
+            } finally {
+                urlConnection?.disconnect()
+            }
     }
 
-    override fun getCollections(): HashMap<String, List<Movie>> {
-        val popularList = getLocalData()
-        val topRatedList = getLocalData()
-        val nowPlayingList = getLocalData()
-        val upcomingList = getLocalData()
+    @Synchronized
+    override fun getCollections(onCollectionLoadListener: OnCollectionLoadListener<HashMap<String, List<MovieDTO>?>>) {
 
-        return hashMapOf(
-            "Popular" to popularList,
-            "Top Rated" to topRatedList,
-            "Now playing" to nowPlayingList,
-            "Upcoming" to upcomingList
-        )
+        var popularList: List<MovieDTO>? = null
+        var upcomingList: List<MovieDTO>? = null
+        var topRatedList: List<MovieDTO>? = null
+        var nowPlayingList: List<MovieDTO>? = null
+
+        Thread {
+
+            try {
+                var collectionsList = hashMapOf(
+                    "upcoming" to upcomingList,
+                    "popular" to popularList,
+                    "top_rated" to topRatedList,
+                    "now_playing" to nowPlayingList,
+                )
+
+                collectionsList.forEach { collection ->
+                    getRemoteCollectionData(
+                        collection.key,
+                        object : OnMovieLoadListener<MovieCollection> {
+                            override fun loadSuccess(value: MovieCollection) {
+                                collectionsList[collection.key] = value.results
+                            }
+
+                            override fun loadError(throwable: Throwable) {
+                                throw Exception(throwable)
+                            }
+
+                        })
+                }
+                handler.post {
+                    onCollectionLoadListener.loadSuccess(collectionsList)
+                }
+
+
+            } catch (e: Exception) {
+                handler.post {
+                    onCollectionLoadListener.loadError(e)
+                }
+            }
+        }.start()
     }
 
     override fun getFavorites(): List<Movie> = favoritesList
@@ -46,5 +126,15 @@ object RepositoryImpl : Repository {
 
     override fun removeFavoriteMovie(movie: Movie) {
         favoritesList.remove(movie)
+    }
+
+    interface OnMovieLoadListener<T> {
+        fun loadSuccess(value: T)
+        fun loadError(throwable: Throwable)
+    }
+
+    interface OnCollectionLoadListener<T> {
+        fun loadSuccess(value: T)
+        fun loadError(throwable: Throwable)
     }
 }

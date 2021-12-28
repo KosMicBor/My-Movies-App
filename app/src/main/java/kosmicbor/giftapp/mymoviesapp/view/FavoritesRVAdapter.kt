@@ -11,6 +11,7 @@ import kosmicbor.giftapp.mymoviesapp.domain.Movie
 class FavoritesRVAdapter : RecyclerView.Adapter<FavoritesRVAdapter.FavoritesViewHolder>() {
 
     private val favoriteMoviesList: MutableList<Movie> = mutableListOf()
+    var itemClick: FavoritesOnClick? = null
 
     inner class FavoritesViewHolder(val binding: MovieRecyclerviewItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -27,7 +28,11 @@ class FavoritesRVAdapter : RecyclerView.Adapter<FavoritesRVAdapter.FavoritesView
             itemMovieYear.text = favoriteMoviesList[position].releaseDate
             itemMovieRating.text = favoriteMoviesList[position].voteAverage.toString()
             itemImage.setImageResource(R.drawable.ic_launcher_background)
+            root.setOnClickListener {
+                itemClick?.onClick(favoriteMoviesList[position])
+            }
         }
+
     }
 
     override fun getItemCount() = favoriteMoviesList.size
@@ -38,7 +43,14 @@ class FavoritesRVAdapter : RecyclerView.Adapter<FavoritesRVAdapter.FavoritesView
         favoriteMoviesList.addAll(moviesList)
         notifyDataSetChanged()
     }
+
+    fun interface FavoritesOnClick {
+        fun onClick(movie: Movie)
+    }
 }
+
+
+
 
 
 

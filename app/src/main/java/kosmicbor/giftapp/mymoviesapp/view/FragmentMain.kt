@@ -13,6 +13,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import kosmicbor.giftapp.mymoviesapp.R
 import kosmicbor.giftapp.mymoviesapp.databinding.FragmentMainBinding
 import kosmicbor.giftapp.mymoviesapp.domain.Movie
+import kosmicbor.giftapp.mymoviesapp.domain.MovieDTO
 import kosmicbor.giftapp.mymoviesapp.domain.viewHide
 import kosmicbor.giftapp.mymoviesapp.domain.viewShow
 import kosmicbor.giftapp.mymoviesapp.viewmodel.MainViewModel
@@ -51,7 +52,7 @@ class FragmentMain : Fragment(R.layout.fragment_main) {
         viewModel.getMoviesListLiveData().observe(viewLifecycleOwner) {
             when (it) {
                 is Success -> {
-                    mainAdapter.submitList(it.value as HashMap<String, List<Movie>>)
+                    mainAdapter.submitList(it.value as HashMap<String, List<MovieDTO>>)
                     binding.apply {
                         retryBtn.viewHide()
                         progressbar.viewHide()
