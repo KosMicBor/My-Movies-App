@@ -3,38 +3,49 @@ package kosmicbor.giftapp.mymoviesapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kosmicbor.giftapp.mymoviesapp.databinding.MainActivityBinding
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+import androidx.appcompat.view.SupportActionModeWrapper
+import kosmicbor.giftapp.mymoviesapp.domain.ConnectivityReceiver
 
 
-class MainActivity : AppCompatActivity(R.layout.main_activity){
+class MainActivity : AppCompatActivity(R.layout.main_activity) {
 
-    private val router: Router = Router(supportFragmentManager)
-    private val binding: MainActivityBinding by viewBinding(MainActivityBinding::bind, R.id.activity_container)
+    private val binding: MainActivityBinding by viewBinding(
+        MainActivityBinding::bind,
+        R.id.activity_container
+    )
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            router.openFragmentMain()
+            Router.openFragmentMain(supportFragmentManager)
         }
+
+        registerReceiver(
+            ConnectivityReceiver(),
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
+
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.favorites -> {
-                    router.openFragmentFavorites()
+                    Router.openFragmentFavorites(supportFragmentManager)
                     true
                 }
                 R.id.ratings -> {
-                    router.openFragmentRatings()
+                    Router.openFragmentRatings(supportFragmentManager)
                     true
                 }
                 R.id.profile -> {
-                    router.openFragmentProfile()
+                    Router.openFragmentProfile(supportFragmentManager)
                     true
                 }
                 R.id.home -> {
-                    router.openFragmentMain()
+                    Router.openFragmentMain(supportFragmentManager)
                     true
                 }
 
@@ -43,5 +54,11 @@ class MainActivity : AppCompatActivity(R.layout.main_activity){
                 }
             }
         }
+
+        val cR = ConnectivityReceiver()
+        IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION).also {
+            registerReceiver(cR, it)
+        }
     }
+
 }

@@ -2,10 +2,10 @@ package kosmicbor.giftapp.mymoviesapp
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
-import kosmicbor.giftapp.mymoviesapp.view.*
+import kosmicbor.giftapp.mymoviesapp.view.fragments.*
 
-class Router(private val supportFragmentManager: FragmentManager) {
-    fun openFragmentFavorites() {
+object Router {
+    fun openFragmentFavorites(supportFragmentManager: FragmentManager) {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .replace(R.id.main_container, FragmentFavorites.newInstance())
@@ -13,7 +13,7 @@ class Router(private val supportFragmentManager: FragmentManager) {
             .commit()
     }
 
-    fun openFragmentMain() {
+    fun openFragmentMain(supportFragmentManager: FragmentManager) {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .replace(R.id.main_container, FragmentMain.newInstance())
@@ -21,7 +21,7 @@ class Router(private val supportFragmentManager: FragmentManager) {
             .commit()
     }
 
-    fun openFragmentRatings() {
+    fun openFragmentRatings(supportFragmentManager: FragmentManager) {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .replace(R.id.main_container, FragmentRatings.newInstance())
@@ -29,7 +29,7 @@ class Router(private val supportFragmentManager: FragmentManager) {
             .commit()
     }
 
-    fun openFragmentProfile() {
+    fun openFragmentProfile(supportFragmentManager: FragmentManager) {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .replace(R.id.main_container, FragmentProfile.newInstance())
@@ -37,10 +37,10 @@ class Router(private val supportFragmentManager: FragmentManager) {
             .commit()
     }
 
-    fun openFragmentMoviePage(bundle: Bundle) {
+    fun openFragmentMoviePage(supportFragmentManager: FragmentManager) {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
-            .replace(R.id.main_container, FragmentMoviePage.newInstance(bundle))
+            .replace(R.id.main_container, FragmentMoviePage.newInstance())
             .addToBackStack("MoviesPage")
             .commit()
     }

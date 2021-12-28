@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
+    android:id="@+id/movies_page_container"
     android:layout_gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.FragmentMain">
+    tools:context=".view.fragments.FragmentMain">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_main"

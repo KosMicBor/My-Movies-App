@@ -3,12 +3,14 @@ package kosmicbor.giftapp.mymoviesapp.domain
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.google.gson.Gson
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.Movie
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieCollection
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.lang.NullPointerException
 import java.net.URL
-import java.util.concurrent.CountDownLatch
 import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
 
@@ -37,40 +39,67 @@ object RepositoryImpl : Repository {
         )
     }
 
-    @Synchronized
     override fun getRemoteCollectionData(
         collectionName: String,
         onMovieLoadListener: OnMovieLoadListener<MovieCollection>
     ) {
-            var urlConnection: HttpsURLConnection? = null
-            try {
-                val uri =
-                    URL("https://api.themoviedb.org/3/movie/${collectionName}?api_key=${API_KEY}&language=en-US&page=1")
+        var urlConnection: HttpsURLConnection? = null
+        try {
+            val uri =
+                URL("https://api.themoviedb.org/3/movie/${collectionName}?api_key=${API_KEY}&language=en-US&page=1")
 
-                urlConnection = (uri.openConnection() as HttpsURLConnection).apply {
-                    requestMethod = "GET"
-                    addRequestProperty("api_key", API_KEY)
-                    readTimeout = TIMEOUT_TIME
-                    connectTimeout = TIMEOUT_TIME
-                }
-                val reader = BufferedReader(InputStreamReader(urlConnection.inputStream))
-                val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    reader.lines().collect(Collectors.joining("\n"))
-                } else {
-                    throw Exception("Can't build it")
-                }
-
-                val collection = Gson().fromJson(result, MovieCollection::class.java)
-                handler.post {
-                    onMovieLoadListener.loadSuccess(collection)
-                }
-            } catch (e: Exception) {
-                handler.post {
-                    onMovieLoadListener.loadError(e)
-                }
-            } finally {
-                urlConnection?.disconnect()
+            urlConnection = (uri.openConnection() as HttpsURLConnection).apply {
+                requestMethod = "GET"
+                addRequestProperty("api_key", API_KEY)
+                readTimeout = TIMEOUT_TIME
+                connectTimeout = TIMEOUT_TIME
             }
+            val reader = BufferedReader(InputStreamReader(urlConnection.inputStream))
+            val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                reader.lines().collect(Collectors.joining("\n"))
+            } else {
+                throw Exception("Can't build it")
+            }
+
+            val collection = Gson().fromJson(result, MovieCollection::class.java)
+                onMovieLoadListener.loadSuccess(collection)
+        } catch (e: Exception) {
+                onMovieLoadListener.loadError(e)
+        } finally {
+            urlConnection?.disconnect()
+        }
+    }
+
+    override fun getRemoteMovieData(
+        movieId: Int,
+        onMovieLoadListener: OnMovieLoadListener<MovieDTO>
+    ) {
+        var urlConnection: HttpsURLConnection? = null
+
+        try {
+            val uri =
+                URL("https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=en-US")
+
+            urlConnection = (uri.openConnection() as HttpsURLConnection).apply {
+                requestMethod = "GET"
+                addRequestProperty("api_key", API_KEY)
+                readTimeout = TIMEOUT_TIME
+                connectTimeout = TIMEOUT_TIME
+            }
+            val reader = BufferedReader(InputStreamReader(urlConnection.inputStream))
+            val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                reader.lines().collect(Collectors.joining("\n"))
+            } else {
+                throw Exception("Can't build it")
+            }
+
+            val movie = Gson().fromJson(result, MovieDTO::class.java)
+            onMovieLoadListener.loadSuccess(movie)
+        } catch (e: Exception) {
+            onMovieLoadListener.loadError(e)
+        } finally {
+            urlConnection?.disconnect()
+        }
     }
 
     @Synchronized

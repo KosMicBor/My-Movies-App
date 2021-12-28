@@ -1,4 +1,4 @@
-package kosmicbor.giftapp.mymoviesapp.domain
+package kosmicbor.giftapp.mymoviesapp.domain.tmdbdata
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -8,12 +8,12 @@ import kotlinx.parcelize.Parcelize
 data class MovieDTO(
     @SerializedName("id")
     val id: Int?,
+    @SerializedName("backdrop_path")
+    val backdropPath: String?,
     @SerializedName("adult")
     val adult: Boolean? = false,
-    @SerializedName("belongs_to_collection")
-    val belongsToCollection: String?,
     @SerializedName("budget")
-    val budget: Long?,
+    val budget: Int,
     @SerializedName("genres")
     val genres: List<Genre>?,
     @SerializedName("original_language")
@@ -41,7 +41,6 @@ data class MovieDTO(
     @SerializedName("tagline")
     val tagline: String?,
     @SerializedName("vote_average")
-    val voteAverage: Number?,
-    @SerializedName("vote_count")
-    val voteCount: Int?
+    val voteAverage: Number?
 ) : Parcelable
+

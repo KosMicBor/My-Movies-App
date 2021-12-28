@@ -1,4 +1,4 @@
-package kosmicbor.giftapp.mymoviesapp.view
+package kosmicbor.giftapp.mymoviesapp.view.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kosmicbor.giftapp.mymoviesapp.R
 import kosmicbor.giftapp.mymoviesapp.databinding.MovieRecyclerviewItemBinding
-import kosmicbor.giftapp.mymoviesapp.domain.Movie
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.Movie
 
 class FavoritesRVAdapter : RecyclerView.Adapter<FavoritesRVAdapter.FavoritesViewHolder>() {
 

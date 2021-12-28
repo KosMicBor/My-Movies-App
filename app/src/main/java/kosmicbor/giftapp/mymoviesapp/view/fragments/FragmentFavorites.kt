@@ -1,4 +1,4 @@
-package kosmicbor.giftapp.mymoviesapp.view
+package kosmicbor.giftapp.mymoviesapp.view.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -12,10 +12,14 @@ import com.google.android.material.snackbar.Snackbar
 import kosmicbor.giftapp.mymoviesapp.R
 import kosmicbor.giftapp.mymoviesapp.Router
 import kosmicbor.giftapp.mymoviesapp.databinding.FragmentFavoritesBinding
-import kosmicbor.giftapp.mymoviesapp.domain.Movie
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.Movie
 import kosmicbor.giftapp.mymoviesapp.domain.showSnackBar
 import kosmicbor.giftapp.mymoviesapp.domain.viewHide
 import kosmicbor.giftapp.mymoviesapp.domain.viewShow
+import kosmicbor.giftapp.mymoviesapp.view.Error
+import kosmicbor.giftapp.mymoviesapp.view.adapters.FavoritesRVAdapter
+import kosmicbor.giftapp.mymoviesapp.view.LoadingState
+import kosmicbor.giftapp.mymoviesapp.view.Success
 import kosmicbor.giftapp.mymoviesapp.viewmodel.FavoritesViewModel
 
 class FragmentFavorites : Fragment(R.layout.fragment_favorites) {
@@ -26,9 +30,6 @@ class FragmentFavorites : Fragment(R.layout.fragment_favorites) {
     }
     private val viewModel: FavoritesViewModel by viewModels()
     private val favoritesAdapter = FavoritesRVAdapter()
-    private val router: Router by lazy {
-        Router(requireActivity().supportFragmentManager)
-    }
 
     companion object {
         fun newInstance() = FragmentFavorites()
@@ -52,7 +53,9 @@ class FragmentFavorites : Fragment(R.layout.fragment_favorites) {
                     val bundle = Bundle().apply {
                         putParcelable(MOVIE_CONST, movie)
                     }
-                    router.openFragmentMoviePage(bundle)
+                    activity?.apply {
+                    Router.openFragmentMoviePage(supportFragmentManager)
+                    }
                 }
             }
         }

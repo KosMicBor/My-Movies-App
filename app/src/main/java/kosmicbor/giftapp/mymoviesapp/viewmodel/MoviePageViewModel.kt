@@ -3,9 +3,9 @@ package kosmicbor.giftapp.mymoviesapp.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kosmicbor.giftapp.mymoviesapp.domain.Movie
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.Movie
 import kosmicbor.giftapp.mymoviesapp.domain.RepositoryImpl
-import kosmicbor.giftapp.mymoviesapp.view.AppState
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
 
 class MoviePageViewModel(
     private val favoritesListMutableLiveData: MutableLiveData<Movie> = MutableLiveData()
