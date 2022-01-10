@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import coil.load
 import kosmicbor.giftapp.mymoviesapp.R
 import kosmicbor.giftapp.mymoviesapp.databinding.FragmentMoviePageBinding
 import kosmicbor.giftapp.mymoviesapp.domain.MovieIntentService
@@ -35,7 +36,7 @@ class FragmentMoviePage : Fragment(R.layout.fragment_movie_page) {
             binding.apply {
                 movie?.let {
                     moviePageTitle.text = it.title
-                    moviePageImage.setImageResource(R.drawable.ic_launcher_background)
+                    moviePageImage.load("https://image.tmdb.org/t/p/w500${it.posterPath}")
                     moviePageOverview.text = it.overview
                     moviePageVoteAverage.text = it.voteAverage.toString()
                     moviePageBudget.text = it.budget.toString()
@@ -46,7 +47,6 @@ class FragmentMoviePage : Fragment(R.layout.fragment_movie_page) {
                     moviePageRuntime.text = it.runtime.toString()
                 }
             }
-
         }
     }
 

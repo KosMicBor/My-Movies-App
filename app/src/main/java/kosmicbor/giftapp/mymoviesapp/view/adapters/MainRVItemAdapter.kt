@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
 import kosmicbor.giftapp.mymoviesapp.R
 import kosmicbor.giftapp.mymoviesapp.Router
 import kosmicbor.giftapp.mymoviesapp.domain.MovieIntentService
-
 import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
-import kosmicbor.giftapp.mymoviesapp.view.fragments.FragmentMoviePage
 
 class MainRVItemAdapter() : RecyclerView.Adapter<MainRVItemAdapter.MainViewHolder>() {
 
@@ -40,7 +39,10 @@ class MainRVItemAdapter() : RecyclerView.Adapter<MainRVItemAdapter.MainViewHolde
             title.text = moviesList[position].title
             movieYear.text = moviesList[position].releaseDate
             movieRating.text = moviesList[position].voteAverage.toString()
-            movieImage.setImageResource(R.drawable.ic_launcher_background)
+            Glide.with(holder.itemView)
+                .load("https://image.tmdb.org/t/p/w500${moviesList[position].backdropPath}")
+                .into(movieImage)
+            //movieImage.setImageResource(R.drawable.ic_launcher_background)
             itemView.setOnClickListener {
                 it.context.startService(Intent(it.context, MovieIntentService::class.java).apply {
                     putExtra(MovieIntentService.MOVIE_ID_KEY, moviesList[position].id)

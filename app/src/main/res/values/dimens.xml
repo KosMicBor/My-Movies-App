@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="zero_dp">0dp</dimen>
-    <dimen name="title_size">24sp</dimen>
+    <dimen name="title_size">20sp</dimen>
     <dimen name="typical_margin">24dp</dimen>
     <dimen name="min_margin">8dp</dimen>
     <dimen name="cardview_corner_radius">10dp</dimen>
@@ -18,4 +18,5 @@
     <dimen name="_0dp">0dp</dimen>
     <dimen name="movie_img_width">200dp</dimen>
     <dimen name="movie_img_height">240dp</dimen>
+    <dimen name="sub_title_size">16sp</dimen>
 </resources>
