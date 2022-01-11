@@ -29,7 +29,7 @@
             android:id="@+id/movie_page_original_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/title_size"
+            android:textSize="@dimen/sub_title_size"
             app:layout_constraintBottom_toTopOf="@id/movie_page_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +47,7 @@
             android:id="@+id/movie_page_image"
             android:layout_width="@dimen/movie_img_width"
             android:layout_height="@dimen/movie_img_height"
-
+            android:layout_marginTop="@dimen/margin_16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/movie_page_original_name"
             tools:src="@drawable/ic_launcher_background" />

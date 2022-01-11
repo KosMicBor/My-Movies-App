@@ -24,6 +24,8 @@ data class MovieDTO(
     val title: String?,
     @SerializedName("overview")
     val overview: String?,
+    @SerializedName("poster_path")
+    val posterPath: String?,
     @SerializedName("production_companies")
     val productionCompanies: List<Company>?,
     @SerializedName("production_countries")
