@@ -1,4 +1,4 @@
-package kosmicbor.giftapp.mymoviesapp.view
+package kosmicbor.giftapp.mymoviesapp.view.fragments
 
 import androidx.fragment.app.Fragment
 import kosmicbor.giftapp.mymoviesapp.R

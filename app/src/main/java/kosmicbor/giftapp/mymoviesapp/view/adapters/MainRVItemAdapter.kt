@@ -1,21 +1,24 @@
-package kosmicbor.giftapp.mymoviesapp.view
+package kosmicbor.giftapp.mymoviesapp.view.adapters
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
 import kosmicbor.giftapp.mymoviesapp.R
+import kosmicbor.giftapp.mymoviesapp.Router
+import kosmicbor.giftapp.mymoviesapp.domain.MovieIntentService
 
-import kosmicbor.giftapp.mymoviesapp.domain.Movie
-import kosmicbor.giftapp.mymoviesapp.domain.MovieDTO
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
+import kosmicbor.giftapp.mymoviesapp.view.fragments.FragmentMoviePage
 
 class MainRVItemAdapter() : RecyclerView.Adapter<MainRVItemAdapter.MainViewHolder>() {
 
     private var moviesList: MutableList<MovieDTO> = mutableListOf()
-    var moviesListItemClick: MoviesListItemOnClick? = null
 
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.item_movie_title)
@@ -39,13 +42,17 @@ class MainRVItemAdapter() : RecyclerView.Adapter<MainRVItemAdapter.MainViewHolde
             movieRating.text = moviesList[position].voteAverage.toString()
             movieImage.setImageResource(R.drawable.ic_launcher_background)
             itemView.setOnClickListener {
-                moviesListItemClick?.onClick(moviesList[position])
+                it.context.startService(Intent(it.context, MovieIntentService::class.java).apply {
+                    putExtra(MovieIntentService.MOVIE_ID_KEY, moviesList[position].id)
+                })
+
+                Router.openFragmentMoviePage((it.context as AppCompatActivity).supportFragmentManager)
             }
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitList(newData: List<MovieDTO>) {
+    fun updateList(newData: List<MovieDTO>) {
         moviesList.clear()
         moviesList.addAll(newData)
         notifyDataSetChanged()

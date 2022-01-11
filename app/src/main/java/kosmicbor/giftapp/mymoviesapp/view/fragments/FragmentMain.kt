@@ -1,4 +1,4 @@
-package kosmicbor.giftapp.mymoviesapp.view
+package kosmicbor.giftapp.mymoviesapp.view.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -12,10 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kosmicbor.giftapp.mymoviesapp.R
 import kosmicbor.giftapp.mymoviesapp.databinding.FragmentMainBinding
-import kosmicbor.giftapp.mymoviesapp.domain.Movie
-import kosmicbor.giftapp.mymoviesapp.domain.MovieDTO
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
 import kosmicbor.giftapp.mymoviesapp.domain.viewHide
 import kosmicbor.giftapp.mymoviesapp.domain.viewShow
+import kosmicbor.giftapp.mymoviesapp.view.Error
+import kosmicbor.giftapp.mymoviesapp.view.LoadingState
+import kosmicbor.giftapp.mymoviesapp.view.adapters.MainRVAdapter
+import kosmicbor.giftapp.mymoviesapp.view.Success
 import kosmicbor.giftapp.mymoviesapp.viewmodel.MainViewModel
 
 class FragmentMain : Fragment(R.layout.fragment_main) {

@@ -1,4 +1,4 @@
-package kosmicbor.giftapp.mymoviesapp.domain
+package kosmicbor.giftapp.mymoviesapp.domain.tmdbdata
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

@@ -1,4 +1,4 @@
-package kosmicbor.giftapp.mymoviesapp.view
+package kosmicbor.giftapp.mymoviesapp.view.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
 import kosmicbor.giftapp.mymoviesapp.R
 
-import kosmicbor.giftapp.mymoviesapp.domain.Movie
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.Movie
 
 class RatingRVAdapter() : RecyclerView.Adapter<RatingRVAdapter.MainViewHolder>() {
 

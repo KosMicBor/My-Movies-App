@@ -1,13 +1,13 @@
-package kosmicbor.giftapp.mymoviesapp.domain
+package kosmicbor.giftapp.mymoviesapp.domain.tmdbdata
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Country(
-    @SerializedName("iso_3166_1")
-    val iso31661: String,
+data class Genre(
+    @SerializedName("id")
+    val id: Int,
     @SerializedName("name")
-    val name: String,
+    val name: String
 ) : Parcelable

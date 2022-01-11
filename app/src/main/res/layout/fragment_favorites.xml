@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    tools:context=".view.FragmentFavorites">
+    tools:context=".view.fragments.FragmentFavorites">
 
     <ProgressBar
         android:id="@+id/favorites_progress_bar"
