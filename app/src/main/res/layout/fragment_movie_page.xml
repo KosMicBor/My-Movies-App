@@ -7,128 +7,159 @@
 
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/movies_page_container"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_8dp"
-        tools:context=".view.fragments.FragmentMoviePage"
-        android:scrollbars="vertical">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/movie_page_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_size"
-            app:layout_constraintBottom_toTopOf="@id/movie_page_original_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Movie Name" />
-
-        <TextView
-            android:id="@+id/movie_page_original_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/sub_title_size"
-            app:layout_constraintBottom_toTopOf="@id/movie_page_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Movie original name" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/favorite_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_baseline_favorite_border_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/movie_page_title" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/movie_page_image"
-            android:layout_width="@dimen/movie_img_width"
-            android:layout_height="@dimen/movie_img_height"
-            android:layout_marginTop="@dimen/margin_16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/movie_page_original_name"
-            tools:src="@drawable/ic_launcher_background" />
-
-        <TextView
-            android:id="@+id/movie_page_genres"
-            android:layout_width="@dimen/_0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/min_margin"
-            android:textSize="@dimen/title_size_16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/movie_page_image"
-            app:layout_constraintTop_toTopOf="@id/movie_page_image"
-            tools:text="Genres" />
-
-        <TextView
-            android:id="@+id/movie_page_runtime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_size_16sp"
-            app:layout_constraintStart_toEndOf="@id/movie_page_image"
-            app:layout_constraintStart_toStartOf="@id/movie_page_genres"
-            app:layout_constraintTop_toBottomOf="@id/movie_page_genres"
-            tools:text="Runtime" />
-
-        <TextView
-            android:id="@+id/movie_page_vote_average"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_size_16sp"
-            app:layout_constraintEnd_toStartOf="@id/movie_page_rating_icon"
-            app:layout_constraintStart_toStartOf="@id/movie_page_genres"
-            app:layout_constraintTop_toBottomOf="@id/movie_page_runtime"
-            tools:text="Rating" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/movie_page_rating_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_4dp"
-            android:layout_marginTop="@dimen/margin_2dp"
-            android:src="@drawable/ic_baseline_star_24"
-            app:layout_constraintStart_toEndOf="@id/movie_page_vote_average"
-            app:layout_constraintTop_toTopOf="@id/movie_page_vote_average" />
-
-        <TextView
-            android:id="@+id/movie_page_budget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_size_16sp"
-            app:layout_constraintStart_toStartOf="@id/movie_page_genres"
-            app:layout_constraintTop_toBottomOf="@id/movie_page_vote_average"
-            tools:text="Budget" />
-
-        <TextView
-            android:id="@+id/movie_page_revenue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_size_16sp"
-            app:layout_constraintStart_toStartOf="@id/movie_page_genres"
-            app:layout_constraintTop_toBottomOf="@id/movie_page_budget"
-            tools:text="Revenue" />
-
-        <TextView
-            android:id="@+id/movie_page_release_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_size_16sp"
-            app:layout_constraintStart_toStartOf="@id/movie_page_genres"
-            app:layout_constraintTop_toBottomOf="@id/movie_page_revenue"
-            tools:text="Release Date" />
-
-        <TextView
-            android:id="@+id/movie_page_overview"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/action_bar_movie_page"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/typical_margin"
-            android:textSize="@dimen/title_size_16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/movie_page_image"
-            tools:text="Overview" />
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/movie_page_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:menu="@menu/actionbar_custom_menu_movie_page"
+                app:title="My Movies App: Movie Page"
+                app:titleTextColor="@color/white" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/movies_page_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/padding_8dp"
+            android:scrollbars="vertical">
+
+            <TextView
+                android:id="@+id/movie_page_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_size"
+                app:layout_constraintBottom_toTopOf="@id/movie_page_original_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Movie Name" />
+
+            <TextView
+                android:id="@+id/movie_page_original_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sub_title_size"
+                app:layout_constraintBottom_toTopOf="@id/movie_page_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Movie original name" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/favorite_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_baseline_favorite_border_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/movie_page_title" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/movie_page_image"
+                android:layout_width="@dimen/movie_img_width"
+                android:layout_height="@dimen/movie_img_height"
+                android:layout_marginTop="@dimen/margin_16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/movie_page_original_name"
+                tools:src="@drawable/ic_launcher_background" />
+
+            <TextView
+                android:id="@+id/movie_page_genres"
+                android:layout_width="@dimen/_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/min_margin"
+                android:textSize="@dimen/title_size_16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/movie_page_image"
+                app:layout_constraintTop_toTopOf="@id/movie_page_image"
+                tools:text="Genres" />
+
+            <TextView
+                android:id="@+id/movie_page_runtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_size_16sp"
+                app:layout_constraintStart_toEndOf="@id/movie_page_image"
+                app:layout_constraintStart_toStartOf="@id/movie_page_genres"
+                app:layout_constraintTop_toBottomOf="@id/movie_page_genres"
+                tools:text="Runtime" />
+
+            <TextView
+                android:id="@+id/movie_page_vote_average"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_size_16sp"
+                app:layout_constraintEnd_toStartOf="@id/movie_page_rating_icon"
+                app:layout_constraintStart_toStartOf="@id/movie_page_genres"
+                app:layout_constraintTop_toBottomOf="@id/movie_page_runtime"
+                tools:text="Rating" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/movie_page_rating_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_4dp"
+                android:layout_marginTop="@dimen/margin_2dp"
+                android:src="@drawable/ic_baseline_star_24"
+                app:layout_constraintStart_toEndOf="@id/movie_page_vote_average"
+                app:layout_constraintTop_toTopOf="@id/movie_page_vote_average" />
+
+            <TextView
+                android:id="@+id/movie_page_budget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_size_16sp"
+                app:layout_constraintStart_toStartOf="@id/movie_page_genres"
+                app:layout_constraintTop_toBottomOf="@id/movie_page_vote_average"
+                tools:text="Budget" />
+
+            <TextView
+                android:id="@+id/movie_page_revenue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_size_16sp"
+                app:layout_constraintStart_toStartOf="@id/movie_page_genres"
+                app:layout_constraintTop_toBottomOf="@id/movie_page_budget"
+                tools:text="Revenue" />
+
+            <TextView
+                android:id="@+id/movie_page_release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_size_16sp"
+                app:layout_constraintStart_toStartOf="@id/movie_page_genres"
+                app:layout_constraintTop_toBottomOf="@id/movie_page_revenue"
+                tools:text="Release Date" />
+
+            <TextView
+                android:id="@+id/movie_page_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/typical_margin"
+                android:textSize="@dimen/title_size_16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/movie_page_image"
+                tools:text="Overview" />
+
+            <TextView
+                android:id="@+id/movie_page_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/typical_margin"
+                android:textSize="@dimen/title_size_16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/movie_page_overview"
+                tools:text="Note" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>

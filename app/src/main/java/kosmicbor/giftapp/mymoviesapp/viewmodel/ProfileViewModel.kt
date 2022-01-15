@@ -1,10 +1,9 @@
 package kosmicbor.giftapp.mymoviesapp.viewmodel
 
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kosmicbor.giftapp.mymoviesapp.domain.RepositoryImpl
+import kosmicbor.giftapp.mymoviesapp.domain.repositories.RepositoryImpl
 import kosmicbor.giftapp.mymoviesapp.view.AppState
 import kosmicbor.giftapp.mymoviesapp.view.Success
 import kosmicbor.giftapp.mymoviesapp.view.Error
@@ -24,22 +23,6 @@ class ProfileViewModel(
 
         moviesListMutableLiveData.value = LoadingState
 
-        executor.execute {
-            Thread {
-
-                Thread.sleep(2000L)
-
-                val randomBoolean = Random.nextBoolean()
-
-                if (randomBoolean) {
-                    val moviesList = RepositoryImpl.getLocalData()
-                    moviesListMutableLiveData.postValue(Success(moviesList))
-                } else {
-                    moviesListMutableLiveData.postValue(Error<Exception>(Exception("Can't load movies database")))
-                }
-
-            }.start()
-        }
     }
 
     override fun onCleared() {

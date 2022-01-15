@@ -11,7 +11,7 @@ data class MovieDTO(
     @SerializedName("backdrop_path")
     val backdropPath: String?,
     @SerializedName("adult")
-    val adult: Boolean? = false,
+    val adult: Boolean = false,
     @SerializedName("budget")
     val budget: Int,
     @SerializedName("genres")

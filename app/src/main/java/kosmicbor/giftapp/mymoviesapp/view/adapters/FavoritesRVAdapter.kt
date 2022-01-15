@@ -1,16 +1,20 @@
 package kosmicbor.giftapp.mymoviesapp.view.adapters
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import kosmicbor.giftapp.mymoviesapp.R
+import coil.load
+import kosmicbor.giftapp.mymoviesapp.Router
 import kosmicbor.giftapp.mymoviesapp.databinding.MovieRecyclerviewItemBinding
-import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.Movie
+import kosmicbor.giftapp.mymoviesapp.domain.MovieIntentService
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
 
 class FavoritesRVAdapter : RecyclerView.Adapter<FavoritesRVAdapter.FavoritesViewHolder>() {
 
-    private val favoriteMoviesList: MutableList<Movie> = mutableListOf()
+    private val favoriteMoviesList: MutableList<MovieDTO> = mutableListOf()
     var itemClick: FavoritesOnClick? = null
 
     inner class FavoritesViewHolder(val binding: MovieRecyclerviewItemBinding) :
@@ -27,9 +31,17 @@ class FavoritesRVAdapter : RecyclerView.Adapter<FavoritesRVAdapter.FavoritesView
             itemMovieTitle.text = favoriteMoviesList[position].title
             itemMovieYear.text = favoriteMoviesList[position].releaseDate
             itemMovieRating.text = favoriteMoviesList[position].voteAverage.toString()
-            itemImage.setImageResource(R.drawable.ic_launcher_background)
+            itemImage.load("https://image.tmdb.org/t/p/w500${favoriteMoviesList[position].backdropPath}")
             root.setOnClickListener {
-                itemClick?.onClick(favoriteMoviesList[position])
+                it.context.startService(
+                    Intent(
+                        it.context,
+                        MovieIntentService::class.java
+                    ).apply {
+                        putExtra(MovieIntentService.MOVIE_ID_KEY, favoriteMoviesList[position].id)
+                    })
+
+                Router.openFragmentMoviePage((it.context as AppCompatActivity).supportFragmentManager)
             }
         }
 
@@ -38,14 +50,14 @@ class FavoritesRVAdapter : RecyclerView.Adapter<FavoritesRVAdapter.FavoritesView
     override fun getItemCount() = favoriteMoviesList.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setFavoritesMovies(moviesList: List<Movie>) {
+    fun setFavoritesMovies(moviesList: List<MovieDTO>) {
         favoriteMoviesList.clear()
         favoriteMoviesList.addAll(moviesList)
         notifyDataSetChanged()
     }
 
     fun interface FavoritesOnClick {
-        fun onClick(movie: Movie)
+        fun onClick(movie: MovieDTO)
     }
 }
 

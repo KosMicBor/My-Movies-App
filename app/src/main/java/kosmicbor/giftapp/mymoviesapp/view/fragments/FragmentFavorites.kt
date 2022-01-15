@@ -1,6 +1,7 @@
 package kosmicbor.giftapp.mymoviesapp.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -8,12 +9,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.snackbar.Snackbar
-
 import kosmicbor.giftapp.mymoviesapp.R
 import kosmicbor.giftapp.mymoviesapp.Router
 import kosmicbor.giftapp.mymoviesapp.databinding.FragmentFavoritesBinding
-import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.Movie
 import kosmicbor.giftapp.mymoviesapp.domain.showSnackBar
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
 import kosmicbor.giftapp.mymoviesapp.domain.viewHide
 import kosmicbor.giftapp.mymoviesapp.domain.viewShow
 import kosmicbor.giftapp.mymoviesapp.view.Error
@@ -54,7 +54,7 @@ class FragmentFavorites : Fragment(R.layout.fragment_favorites) {
                         putParcelable(MOVIE_CONST, movie)
                     }
                     activity?.apply {
-                    Router.openFragmentMoviePage(supportFragmentManager)
+                        Router.openFragmentMoviePage(supportFragmentManager)
                     }
                 }
             }
@@ -67,7 +67,7 @@ class FragmentFavorites : Fragment(R.layout.fragment_favorites) {
                         favoritesRecyclerView.viewShow()
                         favoritesProgressBar.viewHide()
                     }
-                    favoritesAdapter.setFavoritesMovies(it.value as List<Movie>)
+                    favoritesAdapter.setFavoritesMovies(it.value as List<MovieDTO>)
                 }
 
                 is Error -> {
