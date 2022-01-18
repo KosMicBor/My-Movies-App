@@ -4,7 +4,7 @@
     <string name="bm_favorites_btn">Favorites</string>
     <string name="bm_ratings_btn">Ratings</string>
     <string name="bm_profile_btn">Profile</string>
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_favorites_name">Favorites</string>
     <string name="fragment_profile_name">Profile</string>
@@ -21,4 +21,10 @@
     <string name="load_more_layout_text">Load more...</string>
     <string name="add_note_to_movie">Add note</string>
     <string name="enter_note">Enter Note</string>
+    <string name="contacts_btn">OPEN CONTACTS</string>
+    <string name="permission_dialog_title">Запрос доступа к контактам</string>
+    <string name="permossion_dialog_message">Доступ нужен, чтобы отобразить контакты в приложении</string>
+    <string name="permission_pos_btn_text">Дать доступ</string>
+    <string name="permission_dialog_neg_btn_text">Отказать в доступе</string>
+    <string name="error_load_cotnacts_message">Can\'t load contacts</string>
 </resources>

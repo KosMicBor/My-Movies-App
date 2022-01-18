@@ -1,6 +1,5 @@
 package kosmicbor.giftapp.mymoviesapp
 
-import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import kosmicbor.giftapp.mymoviesapp.view.fragments.*
 
@@ -42,6 +41,14 @@ object Router {
             .setReorderingAllowed(true)
             .replace(R.id.main_container, FragmentMoviePage.newInstance())
             .addToBackStack("MoviesPage")
+            .commit()
+    }
+
+    fun openFragmentContacts(supportFragmentManager: FragmentManager) {
+        supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .replace(R.id.main_container, FragmentContacts.newInstance())
+            .addToBackStack("Contacts")
             .commit()
     }
 }
