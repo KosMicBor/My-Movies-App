@@ -1,5 +1,6 @@
 package kosmicbor.giftapp.mymoviesapp
 
+import android.content.ContentResolver
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import by.kirich1409.viewbindingdelegate.viewBinding

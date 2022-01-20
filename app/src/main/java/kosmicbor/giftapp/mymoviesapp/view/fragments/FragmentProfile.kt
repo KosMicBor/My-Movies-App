@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
 import coil.transform.CircleCropTransformation
 import kosmicbor.giftapp.mymoviesapp.R
+import kosmicbor.giftapp.mymoviesapp.Router
 import kosmicbor.giftapp.mymoviesapp.databinding.FragmentProfileBinding
 
 class FragmentProfile : Fragment(R.layout.fragment_profile) {
@@ -31,6 +32,7 @@ class FragmentProfile : Fragment(R.layout.fragment_profile) {
                     crossfade(true)
                     transformations(CircleCropTransformation())
                 }
+
             }
             userName.text = DEFAULT_USER_NAME
 
@@ -43,6 +45,10 @@ class FragmentProfile : Fragment(R.layout.fragment_profile) {
                     isAdultOnly = false
                     setAdultCondition(isAdultOnly)
                 }
+            }
+
+            contactsBtn.setOnClickListener {
+                Router.openFragmentContacts(requireActivity().supportFragmentManager)
             }
         }
     }

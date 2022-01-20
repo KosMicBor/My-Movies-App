@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
@@ -16,6 +17,7 @@ import kosmicbor.giftapp.mymoviesapp.R
 import kosmicbor.giftapp.mymoviesapp.Router
 import kosmicbor.giftapp.mymoviesapp.domain.MovieIntentService
 import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
+import kosmicbor.giftapp.mymoviesapp.utils.MovieAppDiffUtil
 
 class MainRVItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -27,6 +29,7 @@ class MainRVItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     private var moviesList: MutableList<MovieDTO> = mutableListOf()
+    private lateinit var diffUtil: MovieAppDiffUtil
 
     inner class MovieItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -34,6 +37,7 @@ class MainRVItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val movieImage: ShapeableImageView = itemView.findViewById(R.id.item_image)
         val movieYear: TextView = itemView.findViewById(R.id.item_movie_year)
         val movieRating: TextView = itemView.findViewById(R.id.item_movie_rating)
+
     }
 
     inner class LoadMoreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -120,9 +124,13 @@ class MainRVItemAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(newData: List<MovieDTO>) {
+        diffUtil = MovieAppDiffUtil(moviesList, newData)
+        val diffResult = DiffUtil.calculateDiff(diffUtil)
+
         moviesList.clear()
         moviesList.addAll(newData)
-        notifyDataSetChanged()
+
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun getItemCount() = moviesList.size + ONE_VAL
