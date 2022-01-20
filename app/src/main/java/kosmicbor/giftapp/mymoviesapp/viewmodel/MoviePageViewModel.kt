@@ -3,26 +3,90 @@ package kosmicbor.giftapp.mymoviesapp.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.Movie
-import kosmicbor.giftapp.mymoviesapp.domain.RepositoryImpl
+import kosmicbor.giftapp.mymoviesapp.domain.App.Companion.getHistoryDao
+import kosmicbor.giftapp.mymoviesapp.domain.repositories.LocalRepoImpl
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.LocalMovie
 import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
 
 class MoviePageViewModel(
-    private val favoritesListMutableLiveData: MutableLiveData<Movie> = MutableLiveData()
+    private val MovieMutableLiveData: MutableLiveData<MovieDTO> = MutableLiveData(),
+    private val localRepo: LocalRepoImpl = LocalRepoImpl(getHistoryDao())
 ) : ViewModel() {
 
-    fun liveDataToObserve() : LiveData<Movie> = favoritesListMutableLiveData
+    private var note: String? = ""
 
-    fun addFavoriteMovie(movie: Movie) {
-        RepositoryImpl.addFavoriteMovie(movie)
+    fun getMoviePageLiveData(): LiveData<MovieDTO> = MovieMutableLiveData
+
+    fun updateMovieInDB(movie: MovieDTO?, isFavorite: Boolean, note: String?) {
+
+        movie?.apply {
+            localRepo.updateEntity(
+                LocalMovie(
+                    id = movie.id,
+                    title = movie.title,
+                    note = note,
+                    isInFavorite = true
+                )
+            )
+        }
     }
 
-    fun removeFavoriteMovie(movie: Movie) {
-        RepositoryImpl.removeFavoriteMovie(movie)
+
+
+    fun addMovieToLocalDB(movie: MovieDTO, isFavorite: Boolean) {
+        localRepo.saveEntity(
+            LocalMovie(
+                id = movie.id,
+                title = movie.title,
+                note = this.note,
+                isInFavorite = isFavorite
+            )
+        )
     }
 
-    fun isMovieFavorite(movie: Movie): Boolean {
-        return RepositoryImpl.favoritesList.contains(movie)
+    fun removeMovieFromFavorites(movie: MovieDTO?) {
+        movie?.apply {
+            localRepo.updateEntity(
+                LocalMovie(
+                    id = movie.id,
+                    title = movie.title,
+                    note = note,
+                    isInFavorite = false
+                )
+            )
+        }
+
     }
 
+    fun isMovieFavorite(movie: MovieDTO?, listener: OnIsFavoriteListener<Boolean>) {
+
+        localRepo.getEntity(movie?.id, object: LocalRepoImpl.GetEntityListener<LocalMovie> {
+            override fun loadSuccess(value: LocalMovie) {
+
+
+                listener.whenSuccess(value.isInFavorite)
+            }
+
+            override fun loadError(throwable: Throwable) {
+                throw Exception(throwable.localizedMessage)
+            }
+        })
+    }
+
+    fun getMovieNote (movie: MovieDTO?, listener: OnIsFavoriteListener<String?>) {
+        localRepo.getEntity(movie?.id, object: LocalRepoImpl.GetEntityListener<LocalMovie> {
+            override fun loadSuccess(value: LocalMovie) {
+
+                listener.whenSuccess(value.note)
+            }
+
+            override fun loadError(throwable: Throwable) {
+                throw Exception(throwable.localizedMessage)
+            }
+        })
+    }
+
+    fun interface OnIsFavoriteListener<T> {
+        fun whenSuccess(value: T)
+    }
 }

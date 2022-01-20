@@ -14,4 +14,11 @@
     <string name="menu_search_title">Search</string>
     <string name="error_load_favorites_data_message">Can\'t load favorites database</string>
     <string name="try_again_btn">Try again</string>
+    <string name="enable_only_adult_content">Enable only adult content</string>
+    <string name="no_adult_movies_message">There is no adult movies!</string>
+    <string name="open_profile_snackbar_button_text">Open Profile Properties</string>
+    <string name="load_more_button_text">Load more</string>
+    <string name="load_more_layout_text">Load more...</string>
+    <string name="add_note_to_movie">Add note</string>
+    <string name="enter_note">Enter Note</string>
 </resources>

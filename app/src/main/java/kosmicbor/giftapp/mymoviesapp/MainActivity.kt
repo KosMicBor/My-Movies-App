@@ -6,8 +6,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import kosmicbor.giftapp.mymoviesapp.databinding.MainActivityBinding
 import android.content.IntentFilter
 import android.net.ConnectivityManager
-import androidx.appcompat.view.SupportActionModeWrapper
 import kosmicbor.giftapp.mymoviesapp.domain.ConnectivityReceiver
+import kosmicbor.giftapp.mymoviesapp.domain.repositories.LocalRepoImpl
+import kosmicbor.giftapp.mymoviesapp.domain.repositories.RepositoryImpl
 
 
 class MainActivity : AppCompatActivity(R.layout.main_activity) {
@@ -24,11 +25,6 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
         if (savedInstanceState == null) {
             Router.openFragmentMain(supportFragmentManager)
         }
-
-        registerReceiver(
-            ConnectivityReceiver(),
-            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        )
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -60,5 +56,4 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
             registerReceiver(cR, it)
         }
     }
-
 }

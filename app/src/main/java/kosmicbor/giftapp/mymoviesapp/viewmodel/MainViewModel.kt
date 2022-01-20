@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
-import kosmicbor.giftapp.mymoviesapp.domain.RepositoryImpl
+import kosmicbor.giftapp.mymoviesapp.domain.repositories.RepositoryImpl
 import kosmicbor.giftapp.mymoviesapp.view.AppState
 import kosmicbor.giftapp.mymoviesapp.view.Success
 import kosmicbor.giftapp.mymoviesapp.view.Error

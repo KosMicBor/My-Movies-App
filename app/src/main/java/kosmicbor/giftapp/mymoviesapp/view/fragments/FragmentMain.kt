@@ -10,8 +10,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.snackbar.Snackbar
 import kosmicbor.giftapp.mymoviesapp.R
+import kosmicbor.giftapp.mymoviesapp.Router
 import kosmicbor.giftapp.mymoviesapp.databinding.FragmentMainBinding
+import kosmicbor.giftapp.mymoviesapp.domain.showSnackBar
 import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
 import kosmicbor.giftapp.mymoviesapp.domain.viewHide
 import kosmicbor.giftapp.mymoviesapp.domain.viewShow
@@ -19,6 +22,7 @@ import kosmicbor.giftapp.mymoviesapp.view.Error
 import kosmicbor.giftapp.mymoviesapp.view.LoadingState
 import kosmicbor.giftapp.mymoviesapp.view.adapters.MainRVAdapter
 import kosmicbor.giftapp.mymoviesapp.view.Success
+import kosmicbor.giftapp.mymoviesapp.view.adapters.MainRVItemAdapter
 import kosmicbor.giftapp.mymoviesapp.viewmodel.MainViewModel
 
 class FragmentMain : Fragment(R.layout.fragment_main) {
@@ -30,10 +34,13 @@ class FragmentMain : Fragment(R.layout.fragment_main) {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private val mainAdapter = MainRVAdapter()
-    private val binding: FragmentMainBinding by viewBinding (FragmentMainBinding::bind)
+    private val binding: FragmentMainBinding by viewBinding(FragmentMainBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+
         if (savedInstanceState == null) {
             viewModel.getMoviesList()
         }

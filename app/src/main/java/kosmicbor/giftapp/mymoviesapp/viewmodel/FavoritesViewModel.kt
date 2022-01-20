@@ -3,41 +3,93 @@ package kosmicbor.giftapp.mymoviesapp.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.Movie
-import kosmicbor.giftapp.mymoviesapp.domain.RepositoryImpl
+import kosmicbor.giftapp.mymoviesapp.domain.App
+import kosmicbor.giftapp.mymoviesapp.domain.repositories.LocalRepoImpl
+import kosmicbor.giftapp.mymoviesapp.domain.repositories.RepositoryImpl
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.LocalMovie
+import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
 import kosmicbor.giftapp.mymoviesapp.view.AppState
-import kosmicbor.giftapp.mymoviesapp.view.Success
 import kosmicbor.giftapp.mymoviesapp.view.Error
 import kosmicbor.giftapp.mymoviesapp.view.LoadingState
-import kotlin.random.Random
+import kosmicbor.giftapp.mymoviesapp.view.Success
+import java.util.concurrent.CountDownLatch
 
 class FavoritesViewModel(
-    private val FavoritesListMutableLiveData: MutableLiveData<AppState<*>> = MutableLiveData(),
+    private val favoritesListMutableLiveData: MutableLiveData<AppState<*>> = MutableLiveData(),
+    private val localRepo: LocalRepoImpl = LocalRepoImpl(App.getHistoryDao())
 ) : ViewModel() {
 
-    fun getFavoritesListLiveData(): LiveData<AppState<*>> = FavoritesListMutableLiveData
+    private var favoritesMoviesList = mutableListOf<MovieDTO>()
+    private var localMoviesList = mutableListOf<LocalMovie>()
 
+    fun getFavoritesListLiveData(): LiveData<AppState<*>> = favoritesListMutableLiveData
+
+    @Synchronized
     fun getFavoritesList() {
+        favoritesListMutableLiveData.value = LoadingState
 
-        FavoritesListMutableLiveData.value = LoadingState
+        Thread {
 
-            Thread {
+            localRepo.getAllHistory(object : LocalRepoImpl.GetAllHistoryListener<List<LocalMovie>> {
+                @Synchronized
+                override fun loadSuccess(value: List<LocalMovie>) {
+                    val cdl = CountDownLatch(value.size)
 
-                Thread.sleep(2000L)
-
-                val randomBoolean = Random.nextBoolean()
-
-                if (randomBoolean) {
-                    val favoritesList = RepositoryImpl.getFavorites()
-                    FavoritesListMutableLiveData.postValue(Success(favoritesList))
-                } else {
-                    FavoritesListMutableLiveData.postValue(Error<Exception>(Exception("Can't load Favorites database")))
+                        favoritesMoviesList.addAll(convertLocalMovieToDTO(value, cdl))
+                        favoritesListMutableLiveData.postValue(Success(favoritesMoviesList))
                 }
 
-            }.start()
+                override fun loadError(throwable: Throwable) {
+                    favoritesListMutableLiveData
+                        .postValue(Error<Throwable>(Exception(throwable.localizedMessage)))
+                }
+            })
+
+        }.start()
+    }
+
+    @Synchronized
+    fun convertLocalMovieToDTO(
+        localMovieList: List<LocalMovie>,
+        cdl: CountDownLatch
+    ): List<MovieDTO> {
+
+        val list = mutableListOf<MovieDTO>()
+
+        localMovieList.forEach {
+            it.id?.apply {
+                RepositoryImpl.getRemoteMovieData(
+                    this,
+                    object : RepositoryImpl.OnMovieLoadListener<MovieDTO> {
+
+                        @Synchronized
+                        override fun loadSuccess(value: MovieDTO) {
+                            try {
+                                list.add(value)
+                            } finally {
+                                cdl.countDown()
+                            }
+                        }
+
+                        @Synchronized
+                        override fun loadError(throwable: Throwable) {
+                            favoritesListMutableLiveData
+                                .postValue(
+                                    Error<Throwable>(
+                                        Exception(throwable.localizedMessage)
+                                    )
+                                )
+                            cdl.countDown()
+                        }
+                    })
+            }
         }
 
-    fun isInFavorite(movie: Movie): Boolean {
-       return RepositoryImpl.favoritesList.contains(movie)
+        try {
+            cdl.await()
+            return list
+        } catch (e:Exception) {
+            throw e.fillInStackTrace()
+        }
     }
 }
