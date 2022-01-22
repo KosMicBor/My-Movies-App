@@ -16,7 +16,7 @@ import kosmicbor.giftapp.mymoviesapp.databinding.FragmentMoviePageBinding
 import kosmicbor.giftapp.mymoviesapp.domain.MovieIntentService
 import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.Genre
 import kosmicbor.giftapp.mymoviesapp.domain.tmdbdata.MovieDTO
-import kosmicbor.giftapp.mymoviesapp.viewmodel.MoviePageViewModel
+import kosmicbor.giftapp.mymoviesapp.viewmodels.MoviePageViewModel
 import java.lang.StringBuilder
 
 class FragmentMoviePage : Fragment(R.layout.fragment_movie_page) {
@@ -36,8 +36,8 @@ class FragmentMoviePage : Fragment(R.layout.fragment_movie_page) {
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
 
-            intent?.getParcelableExtra<MovieDTO>(RECEIVED_MOVIE)?.apply {
-                movie = this
+            intent?.getParcelableExtra<MovieDTO>(RECEIVED_MOVIE)?.let { receiverMovie ->
+                movie = receiverMovie
                 movie?.apply {
                     viewModel.addMovieToLocalDB(this, isInFavorite)
 

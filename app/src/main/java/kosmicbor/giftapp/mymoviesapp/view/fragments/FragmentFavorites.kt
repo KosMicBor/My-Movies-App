@@ -1,12 +1,10 @@
 package kosmicbor.giftapp.mymoviesapp.view.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.snackbar.Snackbar
 import kosmicbor.giftapp.mymoviesapp.R
@@ -20,14 +18,12 @@ import kosmicbor.giftapp.mymoviesapp.view.Error
 import kosmicbor.giftapp.mymoviesapp.view.adapters.FavoritesRVAdapter
 import kosmicbor.giftapp.mymoviesapp.view.LoadingState
 import kosmicbor.giftapp.mymoviesapp.view.Success
-import kosmicbor.giftapp.mymoviesapp.viewmodel.FavoritesViewModel
+import kosmicbor.giftapp.mymoviesapp.viewmodels.FavoritesViewModel
 
 class FragmentFavorites : Fragment(R.layout.fragment_favorites) {
 
     private val binding: FragmentFavoritesBinding by viewBinding(FragmentFavoritesBinding::bind)
-    private val recyclerView: RecyclerView by lazy {
-        binding.favoritesRecyclerView
-    }
+
     private val viewModel: FavoritesViewModel by viewModels()
     private val favoritesAdapter = FavoritesRVAdapter()
 
@@ -46,7 +42,7 @@ class FragmentFavorites : Fragment(R.layout.fragment_favorites) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView.apply {
+        binding.favoritesRecyclerView.apply {
             layoutManager = GridLayoutManager(requireActivity(), 2)
             adapter = favoritesAdapter.apply {
                 itemClick = FavoritesRVAdapter.FavoritesOnClick { movie ->

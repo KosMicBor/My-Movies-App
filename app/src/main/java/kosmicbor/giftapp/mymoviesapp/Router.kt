@@ -1,6 +1,7 @@
 package kosmicbor.giftapp.mymoviesapp
 
 import androidx.fragment.app.FragmentManager
+import kosmicbor.giftapp.mymoviesapp.map.FragmentGoogleMaps
 import kosmicbor.giftapp.mymoviesapp.view.fragments.*
 
 object Router {
@@ -48,6 +49,14 @@ object Router {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .replace(R.id.main_container, FragmentContacts.newInstance())
+            .addToBackStack("Contacts")
+            .commit()
+    }
+
+    fun openMap(supportFragmentManager: FragmentManager) {
+        supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .replace(R.id.main_container, FragmentGoogleMaps.newInstance())
             .addToBackStack("Contacts")
             .commit()
     }

@@ -1,4 +1,4 @@
-package kosmicbor.giftapp.mymoviesapp.viewmodel
+package kosmicbor.giftapp.mymoviesapp.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -32,7 +32,6 @@ class MoviePageViewModel(
     }
 
 
-
     fun addMovieToLocalDB(movie: MovieDTO, isFavorite: Boolean) {
         localRepo.saveEntity(
             LocalMovie(
@@ -60,9 +59,8 @@ class MoviePageViewModel(
 
     fun isMovieFavorite(movie: MovieDTO?, listener: OnIsFavoriteListener<Boolean>) {
 
-        localRepo.getEntity(movie?.id, object: LocalRepoImpl.GetEntityListener<LocalMovie> {
+        localRepo.getEntity(movie?.id, object : LocalRepoImpl.GetEntityListener<LocalMovie> {
             override fun loadSuccess(value: LocalMovie) {
-
 
                 listener.whenSuccess(value.isInFavorite)
             }
@@ -73,17 +71,20 @@ class MoviePageViewModel(
         })
     }
 
-    fun getMovieNote (movie: MovieDTO?, listener: OnIsFavoriteListener<String?>) {
-        localRepo.getEntity(movie?.id, object: LocalRepoImpl.GetEntityListener<LocalMovie> {
-            override fun loadSuccess(value: LocalMovie) {
+    fun getMovieNote(movie: MovieDTO?, listener: OnIsFavoriteListener<String?>) {
+        movie?.apply {
+            localRepo.getEntity(this.id, object : LocalRepoImpl.GetEntityListener<LocalMovie> {
+                override fun loadSuccess(value: LocalMovie) {
 
-                listener.whenSuccess(value.note)
-            }
+                    listener.whenSuccess(value.note ?: "")
+                }
 
-            override fun loadError(throwable: Throwable) {
-                throw Exception(throwable.localizedMessage)
-            }
-        })
+                override fun loadError(throwable: Throwable) {
+                    throw Exception(throwable.localizedMessage + movie.toString())
+                }
+            })
+        }
+
     }
 
     fun interface OnIsFavoriteListener<T> {

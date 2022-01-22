@@ -22,9 +22,21 @@
     <string name="add_note_to_movie">Add note</string>
     <string name="enter_note">Enter Note</string>
     <string name="contacts_btn">OPEN CONTACTS</string>
-    <string name="permission_dialog_title">Запрос доступа к контактам</string>
-    <string name="permossion_dialog_message">Доступ нужен, чтобы отобразить контакты в приложении</string>
-    <string name="permission_pos_btn_text">Дать доступ</string>
-    <string name="permission_dialog_neg_btn_text">Отказать в доступе</string>
+    <string name="permission_dialog_title">Query to access to the contacts on your phone</string>
+    <string name="location_permission_dialog_title">Query to access to your location</string>
+    <string name="contacts_permossion_dialog_message">App needs access to your contacts for displaying them</string>
+    <string name="location_permossion_dialog_message">App needs access to your GPS for detecting your location</string>
+    <string name="permission_pos_btn_text">Allow access</string>
+    <string name="permission_dialog_neg_btn_text">Deny access</string>
     <string name="error_load_cotnacts_message">Can\'t load contacts</string>
+    <string name="map_btn">OPEN MAP</string>
+    <string name="enter_address">Enter adress here...</string>
+    <string name="map_search_btn_text">Search</string>
+    <string name="default_marker">You are here</string>
+    <string name="use_permission_denied_alert">Can\'t use your location</string>
+    <string name="my_sity_name">Chelyabinsk</string>
+    <string name="almaz_treatre_name">Almaz</string>
+    <string name="kinomax_ural_treatre_name">Kinomax-Ural</string>
+    <string name="megapolis_treatre_name">Megapolis</string>
+    <string name="kinomax_treatre_name">Kinomax</string>
 </resources>

@@ -1,4 +1,4 @@
-package kosmicbor.giftapp.mymoviesapp.viewmodel
+package kosmicbor.giftapp.mymoviesapp.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,10 +33,20 @@ class FavoritesViewModel(
             localRepo.getAllHistory(object : LocalRepoImpl.GetAllHistoryListener<List<LocalMovie>> {
                 @Synchronized
                 override fun loadSuccess(value: List<LocalMovie>) {
-                    val cdl = CountDownLatch(value.size)
 
-                        favoritesMoviesList.addAll(convertLocalMovieToDTO(value, cdl))
-                        favoritesListMutableLiveData.postValue(Success(favoritesMoviesList))
+                    val tempList = mutableListOf<LocalMovie>()
+
+                    value.forEach {
+
+                        if (it.isInFavorite) {
+                            tempList.add(it)
+                        }
+                    }
+
+                    val cdl = CountDownLatch(tempList.size)
+
+                    favoritesMoviesList.addAll(convertLocalMovieToDTO(tempList, cdl))
+                    favoritesListMutableLiveData.postValue(Success(favoritesMoviesList))
                 }
 
                 override fun loadError(throwable: Throwable) {
@@ -48,6 +58,7 @@ class FavoritesViewModel(
         }.start()
     }
 
+
     @Synchronized
     fun convertLocalMovieToDTO(
         localMovieList: List<LocalMovie>,
@@ -56,8 +67,8 @@ class FavoritesViewModel(
 
         val list = mutableListOf<MovieDTO>()
 
-        localMovieList.forEach {
-            it.id?.apply {
+        localMovieList.forEach { localMovie ->
+            localMovie.id?.apply {
                 RepositoryImpl.getRemoteMovieData(
                     this,
                     object : RepositoryImpl.OnMovieLoadListener<MovieDTO> {
@@ -88,7 +99,7 @@ class FavoritesViewModel(
         try {
             cdl.await()
             return list
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             throw e.fillInStackTrace()
         }
     }

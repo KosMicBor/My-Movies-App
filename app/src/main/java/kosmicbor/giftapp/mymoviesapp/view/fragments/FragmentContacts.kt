@@ -22,7 +22,7 @@ import kosmicbor.giftapp.mymoviesapp.view.Success
 import kosmicbor.giftapp.mymoviesapp.view.Error
 import kosmicbor.giftapp.mymoviesapp.view.LoadingState
 import kosmicbor.giftapp.mymoviesapp.view.adapters.ContactsRVAdapter
-import kosmicbor.giftapp.mymoviesapp.viewmodel.ContactsViewModel
+import kosmicbor.giftapp.mymoviesapp.viewmodels.ContactsViewModel
 
 class FragmentContacts : Fragment(R.layout.fragment_contacts) {
 
@@ -44,7 +44,7 @@ class FragmentContacts : Fragment(R.layout.fragment_contacts) {
                 !shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
                     AlertDialog.Builder(context)
                         .setTitle(getString(R.string.permission_dialog_title))
-                        .setMessage(getString(R.string.permossion_dialog_message))
+                        .setMessage(getString(R.string.contacts_permossion_dialog_message))
                         .setPositiveButton(getString(R.string.permission_pos_btn_text)) { _, _ ->
                             checkPermission()
                         }
