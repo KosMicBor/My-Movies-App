@@ -18,7 +18,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
-import coil.transform.CircleCropTransformation
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient
 import com.google.android.gms.location.GeofencingRequest
@@ -134,7 +133,6 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
             uiSettings.apply {
                 isZoomControlsEnabled = true
                 isCompassEnabled = true
-
             }
 
             movieTheatres.forEach {
