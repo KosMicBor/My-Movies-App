@@ -49,7 +49,11 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".map.GeofenceBroadCastReceiver" />
+        <receiver
+            android:name=".map.GeofenceBroadCastReceiver"
+            android:enabled="true"
+            android:exported="true">
+        </receiver>
 
         <service
             android:name=".domain.MovieIntentService"

@@ -18,13 +18,16 @@ class GeofenceBroadCastReceiver : BroadcastReceiver() {
                 return
             }
 
-            val geofencesList = geofencingEvent.triggeringGeofences
-            val transitionType = geofencingEvent.geofenceTransition
 
-            geofencesList.forEach {
-                Log.d("Geofence", it.requestId)
-                if (transitionType == Geofence.GEOFENCE_TRANSITION_ENTER) {
+            val transitionType = geofencingEvent.geofenceTransition
+            if (transitionType == Geofence.GEOFENCE_TRANSITION_ENTER) {
+                val geofencesList = geofencingEvent.triggeringGeofences
+
+                geofencesList.forEach {
+                    Log.d("Geofence", it.requestId)
+
                     Log.d("Geofence", "Alert!")
+
                     AlertDialog.Builder(context)
                         .setTitle(it.requestId)
                         .setMessage("${it.requestId} say \"Hi\" to you")
@@ -32,6 +35,8 @@ class GeofenceBroadCastReceiver : BroadcastReceiver() {
                             dialog.dismiss()
                         }
                 }
+            } else {
+                Log.d("Geofence" , "Invalid type transition $transitionType")
             }
         }
     }

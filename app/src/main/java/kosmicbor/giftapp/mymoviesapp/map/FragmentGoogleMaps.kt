@@ -12,6 +12,8 @@ import android.location.*
 import android.os.Build
 import androidx.fragment.app.Fragment
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -50,6 +52,7 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
         private const val BROADCAST_CODE = 2687
     }
 
+    private val handler = Handler(Looper.myLooper()?: Looper.getMainLooper())
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var map: GoogleMap
 
@@ -151,6 +154,7 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
         activateMyLocation(googleMap)
     }
 
+    @SuppressLint("MissingPermission")
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,16 +165,7 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
         context?.let {
             geofencingClient = LocationServices.getGeofencingClient(it)
         }
-    }
 
-    @SuppressLint("MissingPermission", "UnspecifiedImmutableFlag")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
-        initSearch()
 
         val geofenceList = mutableListOf<Geofence>()
         movieTheatres.forEach {
@@ -207,6 +202,16 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
                 Log.d("Geofence", it.localizedMessage)
             }
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
+        initSearch()
     }
 
     private fun initSearch() {
@@ -342,7 +347,7 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
                     location.longitude,
                     1
                 )
-                activity?.runOnUiThread {
+                handler.post {
                     binding.addressField.text = addresses[0].getAddressLine(0)
                 }
 
