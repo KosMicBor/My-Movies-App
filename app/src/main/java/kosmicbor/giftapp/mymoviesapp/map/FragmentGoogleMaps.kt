@@ -8,15 +8,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.*
+import android.os.Build
 import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.gms.common.api.GoogleApi
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient
 import com.google.android.gms.location.GeofencingRequest
@@ -41,21 +41,34 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
         private const val CHE_LAT = 55.1644419
         private const val CHE_LONG = 61.4368431
         private const val ZERO_VAL = 0
-        private const val START_ZOOM_VALUE = 12.0f
-        private const val GEOFENCE_RADIUS = 100.0f
-        private const val EXPIRATION_DURATION = 60_000L
+        private const val START_ZOOM_VALUE = 15.0f
+        private const val GEOFENCE_RADIUS = 50.0f
+        private const val EXPIRATION_DURATION = 5000L
+        private const val BROADCAST_CODE = 2687
     }
 
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var map: GoogleMap
+    @RequiresApi(Build.VERSION_CODES.Q)
     private val permissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
             when {
                 result -> {
                     getLocation()
                 }
-
                 !shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                    AlertDialog.Builder(context)
+                        .setTitle(getString(R.string.location_permission_dialog_title))
+                        .setMessage(getString(R.string.location_permossion_dialog_message))
+                        .setPositiveButton(getString(R.string.permission_pos_btn_text)) { _, _ ->
+                            requestPermission()
+                        }
+                        .setNegativeButton(getString(R.string.permission_dialog_neg_btn_text)) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                }
+
+                !shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION) -> {
                     AlertDialog.Builder(context)
                         .setTitle(getString(R.string.location_permission_dialog_title))
                         .setMessage(getString(R.string.location_permossion_dialog_message))
@@ -98,8 +111,10 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
 
     private lateinit var geofencePendingIntent: PendingIntent
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun requestPermission() {
         permissionRequest.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        permissionRequest.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
     }
 
     @SuppressLint("MissingPermission")
@@ -125,6 +140,7 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
         activateMyLocation(googleMap)
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -136,7 +152,7 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
         }
     }
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission", "UnspecifiedImmutableFlag")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -166,7 +182,7 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
 
         geofencePendingIntent = PendingIntent.getBroadcast(
             context,
-            ZERO_VAL,
+            BROADCAST_CODE,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -174,6 +190,10 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
         geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent).run {
             addOnSuccessListener {
                 Log.d("Geofence", "It's working")
+            }
+
+            addOnFailureListener {
+                Log.d("Geofence", it.localizedMessage)
             }
         }
     }
