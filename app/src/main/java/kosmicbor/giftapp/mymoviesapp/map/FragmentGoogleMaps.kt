@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.*
 import android.os.Build
 import androidx.fragment.app.Fragment
@@ -17,11 +18,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
+import coil.transform.CircleCropTransformation
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient
 import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
@@ -42,13 +45,15 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
         private const val CHE_LONG = 61.4368431
         private const val ZERO_VAL = 0
         private const val START_ZOOM_VALUE = 15.0f
-        private const val GEOFENCE_RADIUS = 50.0f
+        private const val GEOFENCE_RADIUS = 100.0f
+        private const val GEOFENCE_CIRCLE_RADIUS = 100.0
         private const val EXPIRATION_DURATION = 5000L
         private const val BROADCAST_CODE = 2687
     }
 
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var map: GoogleMap
+
     @RequiresApi(Build.VERSION_CODES.Q)
     private val permissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
@@ -134,6 +139,14 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
 
             movieTheatres.forEach {
                 addMarker(MarkerOptions().position(it.value).title(it.key))
+                val circleOptions = CircleOptions().apply {
+                    center(it.value)
+                    radius(GEOFENCE_CIRCLE_RADIUS)
+                    strokeColor(Color.argb(255, 255, 0, 0))
+                    fillColor(Color.argb(64, 255, 0, 0))
+                    strokeWidth(4f)
+                }
+                addCircle(circleOptions)
             }
         }
 
@@ -207,7 +220,7 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
 
             Thread {
                 try {
-                    val geocoder: Geocoder = Geocoder(it.context)
+                    val geocoder = Geocoder(it.context)
 
                     val addresses = geocoder.getFromLocationName(address, 1)
                     if (addresses.size > ZERO_VAL) {
