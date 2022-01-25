@@ -1,4 +1,4 @@
-package kosmicbor.giftapp.mymoviesapp.viewmodel
+package kosmicbor.giftapp.mymoviesapp.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

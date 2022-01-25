@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/google_maps"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_8dp">
+
+        <TextView
+            android:id="@+id/address_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Default address" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/address_text_input_field"
+            android:layout_width="@dimen/_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_8dp"
+            app:layout_constraintEnd_toStartOf="@id/address_find_btn"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/address_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address_input_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_address"
+                android:imeOptions="actionDone"
+                android:scrollHorizontally="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/address_find_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_0dp"
+            android:layout_marginEnd="@dimen/margin_8dp"
+            android:text="@string/map_search_btn_text"
+            app:layout_constraintBottom_toBottomOf="@id/address_text_input_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/address_text_input_field"
+            app:layout_constraintTop_toTopOf="@id/address_text_input_field" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/fragment_maps" />
+
+
+</LinearLayout>

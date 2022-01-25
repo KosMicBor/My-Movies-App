@@ -19,7 +19,7 @@ import kosmicbor.giftapp.mymoviesapp.view.Error
 import kosmicbor.giftapp.mymoviesapp.view.LoadingState
 import kosmicbor.giftapp.mymoviesapp.view.adapters.MainRVAdapter
 import kosmicbor.giftapp.mymoviesapp.view.Success
-import kosmicbor.giftapp.mymoviesapp.viewmodel.MainViewModel
+import kosmicbor.giftapp.mymoviesapp.viewmodels.MainViewModel
 
 class FragmentMain : Fragment(R.layout.fragment_main) {
 

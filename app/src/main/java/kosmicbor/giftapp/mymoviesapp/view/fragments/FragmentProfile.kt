@@ -1,8 +1,12 @@
 package kosmicbor.giftapp.mymoviesapp.view.fragments
 
+import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
@@ -49,6 +53,11 @@ class FragmentProfile : Fragment(R.layout.fragment_profile) {
 
             contactsBtn.setOnClickListener {
                 Router.openFragmentContacts(requireActivity().supportFragmentManager)
+            }
+
+            mapBtn.setOnClickListener {
+
+                Router.openMap(requireActivity().supportFragmentManager)
             }
         }
     }
