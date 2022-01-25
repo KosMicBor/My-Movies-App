@@ -1,14 +1,23 @@
 package kosmicbor.giftapp.mymoviesapp.map
 
-import android.app.AlertDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
+import kosmicbor.giftapp.mymoviesapp.R
+import kosmicbor.giftapp.mymoviesapp.notifications.NotificationHelper
 
 class GeofenceBroadCastReceiver : BroadcastReceiver() {
+
+    companion object {
+        private const val NOTIFICATION_ID = 243
+        private const val CHANNEL_ID = "geofence notification channel id"
+    }
+
+    private val notificationHelper = NotificationHelper()
 
     override fun onReceive(context: Context?, intent: Intent?) {
         intent?.apply {
@@ -17,7 +26,6 @@ class GeofenceBroadCastReceiver : BroadcastReceiver() {
                 Log.d("Geofence", "On Receive: Error receiving geofence event...")
                 return
             }
-
 
             val transitionType = geofencingEvent.geofenceTransition
             if (transitionType == Geofence.GEOFENCE_TRANSITION_ENTER) {
@@ -28,15 +36,20 @@ class GeofenceBroadCastReceiver : BroadcastReceiver() {
 
                     Log.d("Geofence", "Alert!")
 
-                    AlertDialog.Builder(context)
-                        .setTitle(it.requestId)
-                        .setMessage("${it.requestId} say \"Hi\" to you")
-                        .setPositiveButton("OK") { dialog, _ ->
-                            dialog.dismiss()
-                        }
+                    context?.apply {
+                        notificationHelper.createNotification(
+                            context,
+                            CHANNEL_ID,
+                            NOTIFICATION_ID,
+                            NotificationCompat.PRIORITY_HIGH,
+                            it.requestId,
+                            "Come to visit ${it.requestId}",
+                            R.drawable.ic_baseline_theaters_24
+                        )
+                    }
                 }
             } else {
-                Log.d("Geofence" , "Invalid type transition $transitionType")
+                Log.d("Geofence", "Invalid type transition $transitionType")
             }
         }
     }

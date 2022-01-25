@@ -40,7 +40,7 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
         fun newInstance() =
             FragmentGoogleMaps()
 
-        private const val REFRESH_PERIOD = 60000L
+        private const val REFRESH_PERIOD = 5000L
         private const val MINIMAL_DISTANCE = 10f
         private const val CHE_LAT = 55.1644419
         private const val CHE_LONG = 61.4368431
@@ -154,7 +154,7 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
         activateMyLocation(googleMap)
     }
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission", "UnspecifiedImmutableFlag")
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -173,7 +173,7 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
                 Geofence.Builder()
                     .setRequestId(it.key)
                     .setCircularRegion(it.value.latitude, it.value.longitude, GEOFENCE_RADIUS)
-                    .setExpirationDuration(EXPIRATION_DURATION)
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
                     .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
                     .build()
             )
