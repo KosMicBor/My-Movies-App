@@ -6,6 +6,14 @@ plugins {
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 
+def keyProperties = new Properties()
+
+try {
+    keyProperties.load(project.rootProject.file("key.properties").newDataInputStream())
+} catch (IOException e) {
+    e.fillInStackTrace()
+}
+
 android {
     compileSdk 31
 
@@ -23,12 +31,24 @@ android {
         viewBinding true
     }
 
-    buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            storeFile rootProject.file("app/my_keystore.jks")
+            storePassword keyProperties["KEYSTORE_KEY"]
+            keyAlias keyProperties["RELEASE_ALIAS"]
+            keyPassword keyProperties["RELEASE_KEY"]
         }
     }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "TYPE", '"RELEASE"'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -71,8 +91,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.fragment:fragment-ktx:1.4.0'
-    testImplementation 'junit:junit:'
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.3'
