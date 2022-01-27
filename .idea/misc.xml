@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/googleConfig/res/layout/fragment_profile.xml" value="0.27898550724637683" />
+        <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/huaweiConfig/res/layout/fragment_profile.xml" value="0.27898550724637683" />
+        <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/huaweiConfig/res/menu/actionbar_custom_menu.xml" value="0.22395833333333334" />
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/drawable/ic_baseline_android_24.xml" value="0.13703703703703704" />
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_32.xml" value="0.2611111111111111" />
         <entry key="..\:/Programming/AndroidApps/RepeatedCoursesApps/introdutionToKotlin/MyMoviesApp/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.2462962962962963" />

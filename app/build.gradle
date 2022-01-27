@@ -56,6 +56,18 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    flavorDimensions 'platform'
+    productFlavors {
+        googleConfig {
+            dimension 'platform'
+            versionNameSuffix '.google'
+        }
+
+        huaweiConfig {
+            dimension 'platform'
+            versionNameSuffix '.huawei'
+        }
+    }
 }
 
 dependencies {
