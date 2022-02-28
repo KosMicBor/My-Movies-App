@@ -1,18 +1,19 @@
 package kosmicbor.giftapp.mymoviesapp
 
-import android.content.ContentResolver
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kosmicbor.giftapp.mymoviesapp.databinding.MainActivityBinding
-import android.content.IntentFilter
-import android.net.ConnectivityManager
-import kosmicbor.giftapp.mymoviesapp.domain.ConnectivityReceiver
-import kosmicbor.giftapp.mymoviesapp.domain.repositories.LocalRepoImpl
-import kosmicbor.giftapp.mymoviesapp.domain.repositories.RepositoryImpl
+import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class MainActivity : AppCompatActivity(R.layout.main_activity) {
+
+    companion object {
+    private const val FCM_TAG = "FCM Listener"
+    }
 
     private val binding: MainActivityBinding by viewBinding(
         MainActivityBinding::bind,
@@ -52,9 +53,16 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
             }
         }
 
-        val cR = ConnectivityReceiver()
-        IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION).also {
-            registerReceiver(cR, it)
-        }
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(FCM_TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            val token = task.result
+
+            val msg = token.toString()
+            Log.d(FCM_TAG, "Token from listener: $msg")
+        })
     }
 }

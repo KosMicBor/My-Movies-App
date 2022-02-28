@@ -1,12 +1,8 @@
 package kosmicbor.giftapp.mymoviesapp.view.fragments
 
-import android.Manifest
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
@@ -40,7 +36,7 @@ class FragmentProfile : Fragment(R.layout.fragment_profile) {
             }
             userName.text = DEFAULT_USER_NAME
 
-            adultCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            adultCheckbox.setOnCheckedChangeListener { _, isChecked ->
 
                 if (isChecked) {
                     isAdultOnly = true
@@ -64,7 +60,7 @@ class FragmentProfile : Fragment(R.layout.fragment_profile) {
 
     private fun setAdultCondition(isAdultOnly: Boolean) {
         activity?.let {
-            it.getPreferences(Context.MODE_PRIVATE).edit().apply() {
+            it.getPreferences(Context.MODE_PRIVATE).edit().apply {
                 putBoolean(IS_ADULT, isAdultOnly)
                 apply()
             }
