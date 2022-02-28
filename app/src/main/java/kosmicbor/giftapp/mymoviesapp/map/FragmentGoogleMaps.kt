@@ -48,7 +48,6 @@ class FragmentGoogleMaps : Fragment(R.layout.fragment_google_maps) {
         private const val START_ZOOM_VALUE = 15.0f
         private const val GEOFENCE_RADIUS = 100.0f
         private const val GEOFENCE_CIRCLE_RADIUS = 100.0
-        private const val EXPIRATION_DURATION = 5000L
         private const val BROADCAST_CODE = 2687
     }
 
